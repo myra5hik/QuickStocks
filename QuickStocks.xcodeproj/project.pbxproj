@@ -56,13 +56,10 @@
 		B6CFF103260292930093BA67 /* QuickStocks */ = {
 			isa = PBXGroup;
 			children = (
-				B6CFF104260292930093BA67 /* AppDelegate.swift */,
-				B6CFF106260292930093BA67 /* SceneDelegate.swift */,
+				B6CFF11B260293160093BA67 /* System */,
+				B6CFF11A260292DF0093BA67 /* Resources */,
 				B6CFF108260292930093BA67 /* ContentView.swift */,
-				B6CFF10A260292960093BA67 /* Assets.xcassets */,
-				B6CFF10F260292960093BA67 /* LaunchScreen.storyboard */,
 				B6CFF112260292960093BA67 /* Info.plist */,
-				B6CFF10C260292960093BA67 /* Preview Content */,
 			);
 			path = QuickStocks;
 			sourceTree = "<group>";
@@ -73,6 +70,25 @@
 				B6CFF10D260292960093BA67 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B6CFF11A260292DF0093BA67 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B6CFF10C260292960093BA67 /* Preview Content */,
+				B6CFF10A260292960093BA67 /* Assets.xcassets */,
+				B6CFF10F260292960093BA67 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B6CFF11B260293160093BA67 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				B6CFF104260292930093BA67 /* AppDelegate.swift */,
+				B6CFF106260292930093BA67 /* SceneDelegate.swift */,
+			);
+			path = System;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,7 +314,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = myra5hik.QuickStocks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -319,7 +335,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = myra5hik.QuickStocks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

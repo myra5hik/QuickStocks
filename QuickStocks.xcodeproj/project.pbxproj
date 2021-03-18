@@ -13,6 +13,7 @@
 		B6CFF10B260292960093BA67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6CFF10A260292960093BA67 /* Assets.xcassets */; };
 		B6CFF10E260292960093BA67 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6CFF10D260292960093BA67 /* Preview Assets.xcassets */; };
 		B6CFF111260292960093BA67 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6CFF10F260292960093BA67 /* LaunchScreen.storyboard */; };
+		B6CFF1202603E65E0093BA67 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF11F2603E65E0093BA67 /* Stock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		B6CFF10D260292960093BA67 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B6CFF110260292960093BA67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6CFF112260292960093BA67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B6CFF11F2603E65E0093BA67 /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		B6CFF103260292930093BA67 /* QuickStocks */ = {
 			isa = PBXGroup;
 			children = (
+				B6CFF11E2603E5DC0093BA67 /* Models */,
 				B6CFF11B260293160093BA67 /* System */,
 				B6CFF11A260292DF0093BA67 /* Resources */,
 				B6CFF108260292930093BA67 /* ContentView.swift */,
@@ -89,6 +92,14 @@
 				B6CFF106260292930093BA67 /* SceneDelegate.swift */,
 			);
 			path = System;
+			sourceTree = "<group>";
+		};
+		B6CFF11E2603E5DC0093BA67 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B6CFF11F2603E65E0093BA67 /* Stock.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,6 +174,7 @@
 			files = (
 				B6CFF105260292930093BA67 /* AppDelegate.swift in Sources */,
 				B6CFF107260292930093BA67 /* SceneDelegate.swift in Sources */,
+				B6CFF1202603E65E0093BA67 /* Stock.swift in Sources */,
 				B6CFF109260292930093BA67 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -303,7 +315,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"QuickStocks/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"QuickStocks/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = XRB83W877Z;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = QuickStocks/Info.plist;
@@ -324,7 +336,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"QuickStocks/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"QuickStocks/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = XRB83W877Z;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = QuickStocks/Info.plist;

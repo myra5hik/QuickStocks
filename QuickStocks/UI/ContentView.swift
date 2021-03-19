@@ -8,13 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var viewModel: ViewModel
+    
     var body: some View {
-        MainScreenTabView()
+        MainScreenTabView(viewModel: .init(container: self.viewModel.container))
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+// MARK: - ViewModel
+
+extension ContentView {
+    class ViewModel: ObservableObject {
+        let container: DIContainer
+        
+        init(container: DIContainer) {
+            self.container = container
+        }
     }
 }
+
+// MARK: - Preview
+
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}

@@ -137,8 +137,8 @@
 		B6CFF14A260533800093BA67 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				B6CFF14B260533DB0093BA67 /* Screens */,
 				B6CFF108260292930093BA67 /* ContentView.swift */,
+				B6CFF14B260533DB0093BA67 /* Screens */,
 			);
 			path = UI;
 			sourceTree = "<group>";

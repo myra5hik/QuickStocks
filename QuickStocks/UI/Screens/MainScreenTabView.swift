@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct MainScreenTabView: View {
+    @ObservedObject var viewModel: ViewModel
+    
     var body: some View {
         TabView {
-            StockListView()
+            StockListView(viewModel: .init(container: self.viewModel.container))
                 .tabItem {
                     Label("Nasdaq 100", systemImage: "list.dash")
                 }
             
-            StockListView()
+            StockListView(viewModel: .init(container: self.viewModel.container))
                 .tabItem {
                     Label("Home", systemImage: "list.star")
                 }
@@ -25,8 +27,8 @@ struct MainScreenTabView: View {
 
 // MARK: - ViewModel
 
-private extension MainScreenTabView {
-    class ViewModel {
+extension MainScreenTabView {
+    class ViewModel: ObservableObject {
         let container: DIContainer
         
         init(container: DIContainer) {
@@ -37,8 +39,8 @@ private extension MainScreenTabView {
 
 // MARK: - Preview
 
-struct MainScreenTabView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainScreenTabView()
-    }
-}
+//struct MainScreenTabView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MainScreenTabView()
+//    }
+//}

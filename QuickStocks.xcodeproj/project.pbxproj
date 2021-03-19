@@ -18,6 +18,8 @@
 		B6CFF13D2605174B0093BA67 /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF13C2605174B0093BA67 /* Symbol.swift */; };
 		B6CFF1422605186F0093BA67 /* StocksDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1412605186F0093BA67 /* StocksDataService.swift */; };
 		B6CFF14626052EB20093BA67 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF14526052EB20093BA67 /* DIContainer.swift */; };
+		B6CFF14D260533F60093BA67 /* MainScreenTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF14C260533F60093BA67 /* MainScreenTabView.swift */; };
+		B6CFF1512605352E0093BA67 /* StockListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1502605352E0093BA67 /* StockListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		B6CFF13C2605174B0093BA67 /* Symbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
 		B6CFF1412605186F0093BA67 /* StocksDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksDataService.swift; sourceTree = "<group>"; };
 		B6CFF14526052EB20093BA67 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
+		B6CFF14C260533F60093BA67 /* MainScreenTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTabView.swift; sourceTree = "<group>"; };
+		B6CFF1502605352E0093BA67 /* StockListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,9 +73,9 @@
 				B6CFF14426052E970093BA67 /* Dependency Injection */,
 				B6CFF1402605185A0093BA67 /* Services */,
 				B6CFF11E2603E5DC0093BA67 /* Models */,
+				B6CFF14A260533800093BA67 /* UI */,
 				B6CFF11B260293160093BA67 /* System */,
 				B6CFF11A260292DF0093BA67 /* Resources */,
-				B6CFF108260292930093BA67 /* ContentView.swift */,
 				B6CFF112260292960093BA67 /* Info.plist */,
 			);
 			path = QuickStocks;
@@ -128,6 +132,24 @@
 				B6CFF14526052EB20093BA67 /* DIContainer.swift */,
 			);
 			path = "Dependency Injection";
+			sourceTree = "<group>";
+		};
+		B6CFF14A260533800093BA67 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				B6CFF14B260533DB0093BA67 /* Screens */,
+				B6CFF108260292930093BA67 /* ContentView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		B6CFF14B260533DB0093BA67 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				B6CFF14C260533F60093BA67 /* MainScreenTabView.swift */,
+				B6CFF1502605352E0093BA67 /* StockListView.swift */,
+			);
+			path = Screens;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,6 +230,8 @@
 				B6CFF1202603E65E0093BA67 /* Stock.swift in Sources */,
 				B6CFF13D2605174B0093BA67 /* Symbol.swift in Sources */,
 				B6CFF109260292930093BA67 /* ContentView.swift in Sources */,
+				B6CFF14D260533F60093BA67 /* MainScreenTabView.swift in Sources */,
+				B6CFF1512605352E0093BA67 /* StockListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

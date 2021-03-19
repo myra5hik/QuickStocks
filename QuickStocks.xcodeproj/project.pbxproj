@@ -14,6 +14,8 @@
 		B6CFF10E260292960093BA67 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6CFF10D260292960093BA67 /* Preview Assets.xcassets */; };
 		B6CFF111260292960093BA67 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6CFF10F260292960093BA67 /* LaunchScreen.storyboard */; };
 		B6CFF1202603E65E0093BA67 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF11F2603E65E0093BA67 /* Stock.swift */; };
+		B6CFF13A260516EA0093BA67 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF139260516EA0093BA67 /* Index.swift */; };
+		B6CFF13D2605174B0093BA67 /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF13C2605174B0093BA67 /* Symbol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		B6CFF110260292960093BA67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6CFF112260292960093BA67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6CFF11F2603E65E0093BA67 /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
+		B6CFF139260516EA0093BA67 /* Index.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
+		B6CFF13C2605174B0093BA67 /* Symbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +101,9 @@
 		B6CFF11E2603E5DC0093BA67 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B6CFF13C2605174B0093BA67 /* Symbol.swift */,
 				B6CFF11F2603E65E0093BA67 /* Stock.swift */,
+				B6CFF139260516EA0093BA67 /* Index.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -174,7 +180,9 @@
 			files = (
 				B6CFF105260292930093BA67 /* AppDelegate.swift in Sources */,
 				B6CFF107260292930093BA67 /* SceneDelegate.swift in Sources */,
+				B6CFF13A260516EA0093BA67 /* Index.swift in Sources */,
 				B6CFF1202603E65E0093BA67 /* Stock.swift in Sources */,
+				B6CFF13D2605174B0093BA67 /* Symbol.swift in Sources */,
 				B6CFF109260292930093BA67 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

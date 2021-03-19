@@ -8,7 +8,7 @@
 import Foundation
 
 struct Stock {
-    let symbol: String
+    let symbol: Symbol
     let name: String
     let currency: String
     let logo: URL?
@@ -34,5 +34,5 @@ extension Stock {
 // MARK: - Helpers
 
 extension Stock: Identifiable {
-    var id: String { symbol }
+    var id: Symbol { symbol }
 }

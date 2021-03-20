@@ -12,14 +12,14 @@ struct MainScreenTabView: View {
     
     var body: some View {
         TabView {
-            StockListView(viewModel: .init(container: self.viewModel.container))
+            IndexView(viewModel: .init(container: self.viewModel.container, indexSymbol: "^GSPC"))
                 .tabItem {
                     Label("Nasdaq 100", systemImage: "list.dash")
                 }
             
-            StockListView(viewModel: .init(container: self.viewModel.container))
+            Text("Favourites tab")
                 .tabItem {
-                    Label("Home", systemImage: "list.star")
+                    Label("Favoutites", systemImage: "list.star")
                 }
         }
     }

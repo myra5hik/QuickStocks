@@ -8,13 +8,20 @@
 import SwiftUI
 
 struct StockListRowView: View {
+    let stock: Stock
+    
     var body: some View {
-        Text("Stock")
+        Text(stock.name)
     }
 }
 
 struct StockListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        StockListRowView()
+        StockListRowView(stock: Stock(
+                            symbol: "AAPL",
+                            name: "Apple inc.",
+                            currency: "USD",
+                            logo: nil)
+        )
     }
 }

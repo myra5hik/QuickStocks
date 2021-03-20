@@ -12,7 +12,7 @@ struct MainScreenTabView: View {
     
     var body: some View {
         TabView {
-            IndexView(viewModel: .init(container: self.viewModel.container, indexSymbol: "^GSPC"))
+            IndexView(viewModel: .init(container: viewModel.container, indexSymbol: "Index1"))
                 .tabItem {
                     Label("Nasdaq 100", systemImage: "list.dash")
                 }

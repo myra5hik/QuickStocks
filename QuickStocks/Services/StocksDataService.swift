@@ -21,13 +21,27 @@ enum DataServiceError: Error {
 
 class StubStockDataService: StocksDataServiceProtocol {
     func provideIndex(_ symbol: Symbol) -> AnyPublisher<Index, Error> {
-        let output = Index(
-            symbol: "^GSPC",
-            constituents: ["AAPL", "YNDX", "TSLA"]
-        )
-        return Just(output)
-            .setFailureType(to: Error.self)
-            .eraseToAnyPublisher()
+        switch symbol {
+        case "Index1":
+            let output = Index(
+                symbol: "Index1",
+                constituents: ["AAPL", "YNDX"]
+            )
+            return Just(output)
+                .setFailureType(to: Error.self)
+                .eraseToAnyPublisher()
+        case "Index2":
+            let output = Index(
+                symbol: "Index2",
+                constituents: ["TSLA"]
+            )
+            return Just(output)
+                .setFailureType(to: Error.self)
+                .eraseToAnyPublisher()
+        default:
+            return Fail(error: DataServiceError.network)
+                .eraseToAnyPublisher()
+        }
     }
     
     func provideStock(_ symbol: Symbol) -> AnyPublisher<Stock, Error> {
@@ -50,11 +64,14 @@ class StubStockDataService: StocksDataServiceProtocol {
     }
     
     func provideStocks(_ symbols: [Symbol]) -> AnyPublisher<[Stock], Error> {
-        let output = [
-            Stock(symbol: "AAPL", name: "Apple Inc.", currency: "USD", logo: nil),
-            Stock(symbol: "YNDX", name: "Yandex LLC", currency: "RUB", logo: nil),
-            Stock(symbol: "TSLA", name: "Tesla Inc.", currency: "USD", logo: nil)
+        let stocks = [
+            "AAPL": Stock(symbol: "AAPL", name: "Apple Inc.", currency: "USD", logo: nil),
+            "YNDX": Stock(symbol: "YNDX", name: "Yandex LLC", currency: "RUB", logo: nil),
+            "TSLA": Stock(symbol: "TSLA", name: "Tesla Inc.", currency: "USD", logo: nil)
         ]
+        
+        let output = symbols.compactMap { stocks[$0] }
+        
         return Just(output)
             .setFailureType(to: Error.self)
             .eraseToAnyPublisher()

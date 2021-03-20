@@ -18,11 +18,11 @@ struct IndexView: View {
     var body: some View {
         StockListView(
             viewModel: .init(
-                container: self.viewModel.container,
-                stockSymbols: self.viewModel.index?.constituents ?? []
+                container: viewModel.container,
+                stockSymbols: viewModel.index?.constituents ?? []
             )
         )
-        .onAppear(perform: self.viewModel.refresh)
+        .onAppear(perform: viewModel.refresh)
     }
 }
 

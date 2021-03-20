@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import Combine
 
 struct StockListView: View {
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
         List(self.viewModel.list) { stock in
-            StockListRowView()
+            StockListRowView(stock: stock)
         }
     }
 }
@@ -21,15 +22,37 @@ struct StockListView: View {
 
 extension StockListView {
     class ViewModel: ObservableObject {
-        @Published var list: [Stock]
+        @Published private(set) var list: [Stock]
         
+        let container: DIContainer
         private let symbols: [Symbol]
-        private let container: DIContainer
+        private var disposables = Set<AnyCancellable>()
         
         init(container: DIContainer, stockSymbols: [Symbol]) {
             self.container = container
             self.symbols = stockSymbols
             self.list = []
+            self.refresh()
+        }
+        
+        func refresh() -> Void {
+            self.container.services.data
+                .provideStocks(self.symbols)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] (value) in
+                    guard let self = self else { return }
+                    switch value {
+                    case .failure(let error):
+                        self.list = []
+                        print(error)
+                    case .finished:
+                        break
+                    }
+                } receiveValue: { [weak self] (array) in
+                    guard let self = self else { return }
+                    self.list = array
+                }
+                .store(in: &disposables)
         }
     }
 }

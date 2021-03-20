@@ -9,8 +9,9 @@ import Foundation
 import Combine
 
 protocol StocksDataServiceProtocol {
-    func fetchIndex(_ symbol: Symbol) -> AnyPublisher<Index, Error>
-    func fetchStock(_ symbol: Symbol) -> AnyPublisher<Stock, Error>
+    func provideIndex(_ symbol: Symbol) -> AnyPublisher<Index, Error>
+    func provideStock(_ symbol: Symbol) -> AnyPublisher<Stock, Error>
+    func provideStocks(_ symbols: [Symbol]) -> AnyPublisher<[Stock], Error>
 }
 
 enum DataServiceError: Error {
@@ -19,7 +20,7 @@ enum DataServiceError: Error {
 }
 
 class StubStockDataService: StocksDataServiceProtocol {
-    func fetchIndex(_ symbol: Symbol) -> AnyPublisher<Index, Error> {
+    func provideIndex(_ symbol: Symbol) -> AnyPublisher<Index, Error> {
         let output = Index(
             symbol: "^GSPC",
             constituents: ["AAPL", "YNDX", "TSLA"]
@@ -29,7 +30,7 @@ class StubStockDataService: StocksDataServiceProtocol {
             .eraseToAnyPublisher()
     }
     
-    func fetchStock(_ symbol: Symbol) -> AnyPublisher<Stock, Error> {
+    func provideStock(_ symbol: Symbol) -> AnyPublisher<Stock, Error> {
         let output: Stock? = {
             switch symbol {
             case "AAPL": return Stock(symbol: "AAPL", name: "Apple Inc.", currency: "USD", logo: nil)
@@ -46,5 +47,16 @@ class StubStockDataService: StocksDataServiceProtocol {
             return Fail<Stock, Error>(error: DataServiceError.network)
                 .eraseToAnyPublisher()
         }
+    }
+    
+    func provideStocks(_ symbols: [Symbol]) -> AnyPublisher<[Stock], Error> {
+        let output = [
+            Stock(symbol: "AAPL", name: "Apple Inc.", currency: "USD", logo: nil),
+            Stock(symbol: "YNDX", name: "Yandex LLC", currency: "RUB", logo: nil),
+            Stock(symbol: "TSLA", name: "Tesla Inc.", currency: "USD", logo: nil)
+        ]
+        return Just(output)
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
     }
 }

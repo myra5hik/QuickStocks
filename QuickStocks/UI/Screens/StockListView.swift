@@ -37,8 +37,8 @@ extension StockListView {
 
 // MARK: - Preview
 
-//struct StockListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StockListView()
-//    }
-//}
+struct StockListView_Previews: PreviewProvider {
+    static var previews: some View {
+        StockListView(viewModel: .init(container: DIContainer.stub))
+    }
+}

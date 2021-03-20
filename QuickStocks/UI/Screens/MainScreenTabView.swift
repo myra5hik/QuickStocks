@@ -37,10 +37,10 @@ extension MainScreenTabView {
     }
 }
 
-// MARK: - Preview
+ // MARK: - Preview
 
-//struct MainScreenTabView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainScreenTabView()
-//    }
-//}
+struct MainScreenTabView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainScreenTabView(viewModel: .init(container: DIContainer.stub))
+    }
+}

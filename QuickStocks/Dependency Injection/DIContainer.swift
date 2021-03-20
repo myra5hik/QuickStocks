@@ -15,8 +15,20 @@ struct DIContainer {
     }
 }
 
+// MARK: - Services
+
 extension DIContainer {
     struct Services {
         let data: StocksDataServiceProtocol
     }
+}
+
+// MARK: - Stub
+
+extension DIContainer {
+    static let stub = DIContainer(
+        services: Services(
+            data: StubStockDataService()
+        )
+    )
 }

@@ -27,10 +27,10 @@ extension ContentView {
     }
 }
 
-// MARK: - Preview
+ // MARK: - Preview
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView(viewModel: .init(container: DIContainer.stub))
+    }
+}

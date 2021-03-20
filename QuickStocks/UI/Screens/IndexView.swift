@@ -15,7 +15,12 @@ struct IndexView: View {
     }
     
     var body: some View {
-        StockListView()
+        StockListView(
+            viewModel: .init(
+                container: self.viewModel.container,
+                stockSymbols: self.viewModel.index?.constituents ?? []
+            )
+        )
     }
 }
 
@@ -23,29 +28,33 @@ struct IndexView: View {
 
 extension IndexView {
     class ViewModel: ObservableObject {
-        @Published private(set) var list: [Stock]
+        @Published private(set) var index: Index?
         
+        let container: DIContainer
         private let indexSymbol: Symbol
-        
-        private let container: DIContainer
         
         init(container: DIContainer, indexSymbol: Symbol) {
             self.container = container
             self.indexSymbol = indexSymbol
-            self.list = []
+            self.index = nil
         }
     }
 }
 
 // MARK: - Preview
 
+fileprivate extension IndexView.ViewModel {
+    convenience init() {
+        self.init(container: DIContainer.stub, indexSymbol: "")
+        self.index = Index(
+            symbol: "^GSPC",
+            constituents: ["AAPL", "YNDX", "TSLA"]
+        )
+    }
+}
+
 struct IndexView_Previews: PreviewProvider {
     static var previews: some View {
-        IndexView(
-            viewModel: .init(
-                container: DIContainer.stub,
-                indexSymbol: "^GSPC"
-            )
-        )
+        IndexView(viewModel: IndexView.ViewModel.init())
     }
 }

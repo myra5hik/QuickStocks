@@ -8,13 +8,47 @@
 import SwiftUI
 
 struct StockListView: View {
+    @ObservedObject var viewModel: ViewModel
+    
     var body: some View {
-        Text("StockListView")
+        List(self.viewModel.list) { stock in
+            StockListRowView()
+        }
+    }
+}
+
+// MARK: - ViewModel
+
+extension StockListView {
+    class ViewModel: ObservableObject {
+        @Published var list: [Stock]
+        
+        private let symbols: [Symbol]
+        private let container: DIContainer
+        
+        init(container: DIContainer, stockSymbols: [Symbol]) {
+            self.container = container
+            self.symbols = stockSymbols
+            self.list = []
+        }
+    }
+}
+
+// MARK: - Preview
+
+fileprivate extension StockListView.ViewModel {
+    convenience init() {
+        self.init(container: DIContainer.stub, stockSymbols: [])
+        self.list = [
+            Stock(symbol: "AAPL", name: "Apple Inc.", currency: "USD", logo: nil),
+            Stock(symbol: "AAPL", name: "Apple Inc.", currency: "USD", logo: nil),
+            Stock(symbol: "AAPL", name: "Apple Inc.", currency: "USD", logo: nil)
+        ]
     }
 }
 
 struct StockListView_Previews: PreviewProvider {
     static var previews: some View {
-        StockListView()
+        StockListView(viewModel: StockListView.ViewModel.init())
     }
 }

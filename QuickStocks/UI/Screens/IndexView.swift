@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct IndexView: View {
     @ObservedObject private var viewModel: ViewModel
@@ -21,6 +22,7 @@ struct IndexView: View {
                 stockSymbols: self.viewModel.index?.constituents ?? []
             )
         )
+        .onAppear(perform: self.viewModel.refresh)
     }
 }
 
@@ -32,11 +34,32 @@ extension IndexView {
         
         let container: DIContainer
         private let indexSymbol: Symbol
+        private var disposables = Set<AnyCancellable>()
         
         init(container: DIContainer, indexSymbol: Symbol) {
             self.container = container
             self.indexSymbol = indexSymbol
             self.index = nil
+        }
+        
+        func refresh() -> Void {
+            self.container.services.data
+                .fetchIndex(self.indexSymbol)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] value in
+                    guard let self = self else { return }
+                    switch value {
+                    case .failure(let error):
+                        self.index = nil
+                        print(error)
+                    case .finished:
+                        break
+                    }
+                } receiveValue: { [weak self] index in
+                    guard let self = self else { return }
+                    self.index = index
+                }
+                .store(in: &self.disposables)
         }
     }
 }

@@ -17,11 +17,6 @@ struct StockListRowView: View {
 
 struct StockListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        StockListRowView(stock: Stock(
-                            symbol: "AAPL",
-                            name: "Apple inc.",
-                            currency: "USD",
-                            logo: nil)
-        )
+        StockListRowView(stock: StubData.stocks[0])
     }
 }

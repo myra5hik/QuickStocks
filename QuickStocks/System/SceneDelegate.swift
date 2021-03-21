@@ -19,7 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         // Create the SwiftUI view that provides the window contents.
-        let services = DIContainer.Services(data: StubStockDataService())
+        let services = DIContainer.Services(
+            data: StockDataService(
+                iexService: IexCloudFetcher()
+            )
+        )
         let container = DIContainer(services: services)
         let contentView = ContentView(viewModel: .init(container: container))
 

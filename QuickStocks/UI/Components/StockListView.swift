@@ -36,23 +36,24 @@ extension StockListView {
         }
         
         func refresh() -> Void {
-            self.container.services.data
-                .provideStocks(self.symbols)
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] (value) in
-                    guard let self = self else { return }
-                    switch value {
-                    case .failure(let error):
-                        self.list = []
-                        print(error)
-                    case .finished:
-                        break
+            for symbol in symbols {
+                self.container.services.data
+                    .provideStock(symbol)
+                    .receive(on: DispatchQueue.main)
+                    .sink { [weak self] (value) in
+                        guard let self = self else { return }
+                        switch value {
+                        case .failure(_):
+                            self.list = []
+                        case .finished:
+                            break
+                        }
+                    } receiveValue: { [weak self] (stock) in
+                        guard let self = self else { return }
+                        self.list.append(stock)
                     }
-                } receiveValue: { [weak self] (array) in
-                    guard let self = self else { return }
-                    self.list = array
-                }
-                .store(in: &disposables)
+                    .store(in: &disposables)
+            }
         }
     }
 }
@@ -62,11 +63,7 @@ extension StockListView {
 fileprivate extension StockListView.ViewModel {
     convenience init() {
         self.init(container: DIContainer.stub, stockSymbols: [])
-        self.list = [
-            Stock(symbol: "AAPL", name: "Apple Inc.", currency: "USD", logo: nil),
-            Stock(symbol: "AAPL", name: "Apple Inc.", currency: "USD", logo: nil),
-            Stock(symbol: "AAPL", name: "Apple Inc.", currency: "USD", logo: nil)
-        ]
+        self.list = StubData.stocks
     }
 }
 

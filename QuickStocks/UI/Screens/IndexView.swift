@@ -69,10 +69,7 @@ extension IndexView {
 fileprivate extension IndexView.ViewModel {
     convenience init() {
         self.init(container: DIContainer.stub, indexSymbol: "")
-        self.index = Index(
-            symbol: "^GSPC",
-            constituents: ["AAPL", "YNDX", "TSLA"]
-        )
+        self.index = StubData.indices[0]
     }
 }
 

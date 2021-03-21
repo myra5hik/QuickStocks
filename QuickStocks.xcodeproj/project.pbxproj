@@ -22,6 +22,8 @@
 		B6CFF1512605352E0093BA67 /* IndexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1502605352E0093BA67 /* IndexView.swift */; };
 		B6CFF1562605FBC70093BA67 /* StockListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1552605FBC70093BA67 /* StockListView.swift */; };
 		B6CFF15A260604250093BA67 /* StockListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF159260604250093BA67 /* StockListRowView.swift */; };
+		B6CFF16326068BD70093BA67 /* IexCloudFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF16226068BD70093BA67 /* IexCloudFetcher.swift */; };
+		B6CFF1692607C3290093BA67 /* StubData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1682607C3290093BA67 /* StubData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		B6CFF1502605352E0093BA67 /* IndexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexView.swift; sourceTree = "<group>"; };
 		B6CFF1552605FBC70093BA67 /* StockListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockListView.swift; sourceTree = "<group>"; };
 		B6CFF159260604250093BA67 /* StockListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockListRowView.swift; sourceTree = "<group>"; };
+		B6CFF16226068BD70093BA67 /* IexCloudFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IexCloudFetcher.swift; sourceTree = "<group>"; };
+		B6CFF1682607C3290093BA67 /* StubData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,7 @@
 				B6CFF10C260292960093BA67 /* Preview Content */,
 				B6CFF10A260292960093BA67 /* Assets.xcassets */,
 				B6CFF10F260292960093BA67 /* LaunchScreen.storyboard */,
+				B6CFF1682607C3290093BA67 /* StubData.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -125,6 +130,7 @@
 		B6CFF1402605185A0093BA67 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B6CFF15E260686940093BA67 /* IexCloudAPI */,
 				B6CFF1412605186F0093BA67 /* StocksDataService.swift */,
 			);
 			path = Services;
@@ -164,6 +170,14 @@
 				B6CFF159260604250093BA67 /* StockListRowView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		B6CFF15E260686940093BA67 /* IexCloudAPI */ = {
+			isa = PBXGroup;
+			children = (
+				B6CFF16226068BD70093BA67 /* IexCloudFetcher.swift */,
+			);
+			path = IexCloudAPI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,9 +253,11 @@
 				B6CFF15A260604250093BA67 /* StockListRowView.swift in Sources */,
 				B6CFF105260292930093BA67 /* AppDelegate.swift in Sources */,
 				B6CFF107260292930093BA67 /* SceneDelegate.swift in Sources */,
+				B6CFF1692607C3290093BA67 /* StubData.swift in Sources */,
 				B6CFF1562605FBC70093BA67 /* StockListView.swift in Sources */,
 				B6CFF1422605186F0093BA67 /* StocksDataService.swift in Sources */,
 				B6CFF13A260516EA0093BA67 /* Index.swift in Sources */,
+				B6CFF16326068BD70093BA67 /* IexCloudFetcher.swift in Sources */,
 				B6CFF14626052EB20093BA67 /* DIContainer.swift in Sources */,
 				B6CFF1202603E65E0093BA67 /* Stock.swift in Sources */,
 				B6CFF13D2605174B0093BA67 /* Symbol.swift in Sources */,

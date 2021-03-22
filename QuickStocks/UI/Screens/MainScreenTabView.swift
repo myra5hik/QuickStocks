@@ -19,7 +19,7 @@ struct MainScreenTabView: View {
             
             Text("Favourites tab")
                 .tabItem {
-                    Label("Favoutites", systemImage: "list.star")
+                    Label("Favourites", systemImage: "list.star")
                 }
         }
         .accentColor(Color("Pale Black"))

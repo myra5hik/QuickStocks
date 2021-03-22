@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import Combine
 
 struct StockListRowView: View {
-    private let viewModel: ViewModel
+    @ObservedObject private var viewModel: ViewModel
     
     init(model: ViewModel) {
         self.viewModel = model
@@ -48,14 +49,21 @@ private extension StockListRowView {
         VStack(alignment: .leading) {
             HStack(alignment: .center, spacing: 4) {
                 Text(viewModel.stock.symbol).h2()
-                Image(systemName: "star.fill")
-                    .font(Font.system(size: 16, weight: .black, design: .default))
-                    .offset(x: 0.0, y: -1.0)
-                    .foregroundColor(.gray)
+                starButton
             }
             Text(viewModel.stock.name).subheader()
         }
         .padding(.leading, 12.0)
+    }
+    
+    var starButton: some View {
+        Image(systemName: "star.fill")
+            .font(Font.system(size: 16, weight: .black, design: .default))
+            .offset(x: 0.0, y: -1.0)
+            .foregroundColor(viewModel.isFav ? Color("Fav Yellow") : Color(.gray))
+            .onTapGesture {
+                viewModel.container.appState.toggle(symbol: viewModel.stock.symbol)
+            }
     }
     
     var priceGroup: some View {
@@ -97,13 +105,26 @@ extension StockListRowView {
     class ViewModel: ObservableObject {
         @Published var stock: Stock
         @Published var isOdd: Bool
+        @Published var isFav: Bool
         
-        private let container: DIContainer
+        let container: DIContainer
+        
+        private var bag = Set<AnyCancellable>()
         
         init(container: DIContainer, stock: Stock, isOdd: Bool) {
             self.container = container
             self.stock = stock
             self.isOdd = isOdd
+            self.isFav = false
+            
+            container.appState.$favourites
+                .subscribe(on: DispatchQueue.global())
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] (set) in
+                    self?.isFav = set.contains(stock.symbol)
+                    print("received set: \(set)")
+                }
+                .store(in: &bag)
         }
     }
 }

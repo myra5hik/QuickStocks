@@ -8,9 +8,11 @@
 import Foundation
 
 struct DIContainer {
+    let appState: AppState
     let services: DIContainer.Services
     
     init(services: DIContainer.Services) {
+        self.appState = AppState()
         self.services = services
     }
 }

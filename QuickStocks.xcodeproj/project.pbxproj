@@ -43,6 +43,7 @@
 		B6CFF196260896D50093BA67 /* Montserrat-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6CFF184260896D50093BA67 /* Montserrat-Italic.ttf */; };
 		B6CFF197260896D50093BA67 /* Montserrat-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6CFF185260896D50093BA67 /* Montserrat-BlackItalic.ttf */; };
 		B6CFF198260896D50093BA67 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6CFF186260896D50093BA67 /* Montserrat-Bold.ttf */; };
+		B6CFF19D26091E840093BA67 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF19C26091E840093BA67 /* AppState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		B6CFF184260896D50093BA67 /* Montserrat-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Italic.ttf"; sourceTree = "<group>"; };
 		B6CFF185260896D50093BA67 /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
 		B6CFF186260896D50093BA67 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		B6CFF19C26091E840093BA67 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				B6CFF14526052EB20093BA67 /* DIContainer.swift */,
+				B6CFF19C26091E840093BA67 /* AppState.swift */,
 			);
 			path = "Dependency Injection";
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				B6CFF16326068BD70093BA67 /* IexCloudFetcher.swift in Sources */,
 				B6CFF14626052EB20093BA67 /* DIContainer.swift in Sources */,
 				B6CFF1202603E65E0093BA67 /* Stock.swift in Sources */,
+				B6CFF19D26091E840093BA67 /* AppState.swift in Sources */,
 				B6CFF13D2605174B0093BA67 /* Symbol.swift in Sources */,
 				B6CFF109260292930093BA67 /* ContentView.swift in Sources */,
 				B6CFF14D260533F60093BA67 /* MainScreenTabView.swift in Sources */,

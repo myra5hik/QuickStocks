@@ -22,6 +22,7 @@ struct MainScreenTabView: View {
                     Label("Favoutites", systemImage: "list.star")
                 }
         }
+        .accentColor(Color("Pale Black"))
     }
 }
 
@@ -39,8 +40,8 @@ extension MainScreenTabView {
 
  // MARK: - Preview
 
-//struct MainScreenTabView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainScreenTabView(viewModel: .init(container: DIContainer.stub))
-//    }
-//}
+struct MainScreenTabView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainScreenTabView(viewModel: .init(container: DIContainer.stub))
+    }
+}

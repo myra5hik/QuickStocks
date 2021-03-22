@@ -13,6 +13,7 @@ struct IndexView: View {
     
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
+        self.viewModel.refresh()
     }
     
     var body: some View {
@@ -22,7 +23,6 @@ struct IndexView: View {
                 stockSymbols: viewModel.index?.constituents ?? []
             )
         )
-        .onAppear(perform: viewModel.refresh)
     }
 }
 
@@ -57,6 +57,7 @@ extension IndexView {
                     }
                 } receiveValue: { [weak self] index in
                     guard let self = self else { return }
+                    guard self.index != index else { return }
                     self.index = index
                 }
                 .store(in: &self.disposables)

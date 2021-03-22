@@ -38,7 +38,7 @@ struct Stock: Codable {
         case open
         case close
         case previousClose
-        case changeAbsolute
+        case changeAbsolute = "change"
         case changePercent
         
         case week52High

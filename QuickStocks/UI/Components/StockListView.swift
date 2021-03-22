@@ -12,9 +12,21 @@ struct StockListView: View {
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
-        List(self.viewModel.list) { stock in
-            StockListRowView(stock: stock)
+        ScrollView {
+            LazyVStack {
+                ForEach(Array(viewModel.list.enumerated()), id: \.offset) { index, element in
+                    StockListRowView(
+                        model: .init(
+                            container: viewModel.container,
+                            stock: element, isOdd: index % 2 == 1
+                        )
+                    )
+                }
+            }
         }
+        .padding(.horizontal, 16.0)
+        
+        // TODO: Remove insets
     }
 }
 

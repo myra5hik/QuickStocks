@@ -23,26 +23,10 @@ struct StockListRowView: View {
             }
             
             HStack(alignment: .center, spacing: 0.0) {
-                Image("AAPL")
-                    .resizable()
-                    .frame(width: 52.0, height: 52.0, alignment: .center)
-                    .cornerRadius(10.0)
-                    .padding(.leading, 8.0)
-                
-                VStack(alignment: .leading) {
-                    Text(viewModel.stock.symbol).h2()
-                    Text(viewModel.stock.name).subheader()
-                }
-                .padding(.leading, 12.0)
-                
+                logoImage
+                nameGroup
                 Spacer()
-                
-                VStack(alignment: .center) {
-                    Text(priceAsText()).h2()
-                    Text(changeAsText())
-                        .indicatingDynamics(rate: viewModel.stock.changePercent)
-                }
-                .padding(.trailing, 12.0)
+                priceGroup
             }
             .frame(minWidth: nil, idealWidth: 328.0, maxWidth: .infinity,
                    minHeight: 68.0, idealHeight: 68.0, maxHeight: 68.0,
@@ -50,6 +34,41 @@ struct StockListRowView: View {
         }
     }
 }
+
+private extension StockListRowView {
+    var logoImage: some View {
+        Image("AAPL")
+            .resizable()
+            .frame(width: 52.0, height: 52.0, alignment: .center)
+            .cornerRadius(10.0)
+            .padding(.leading, 8.0)
+    }
+    
+    var nameGroup: some View {
+        VStack(alignment: .leading) {
+            HStack(alignment: .center, spacing: 4) {
+                Text(viewModel.stock.symbol).h2()
+                Image(systemName: "star.fill")
+                    .font(Font.system(size: 16, weight: .black, design: .default))
+                    .offset(x: 0.0, y: -1.0)
+                    .foregroundColor(.gray)
+            }
+            Text(viewModel.stock.name).subheader()
+        }
+        .padding(.leading, 12.0)
+    }
+    
+    var priceGroup: some View {
+        VStack(alignment: .center) {
+            Text(priceAsText()).h2()
+            Text(changeAsText())
+                .indicatingDynamics(rate: viewModel.stock.changePercent)
+        }
+        .padding(.trailing, 12.0)
+    }
+}
+
+// MARK: - View Helpers
 
 private extension StockListRowView {
     func priceAsText() -> String {

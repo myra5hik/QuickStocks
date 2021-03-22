@@ -45,6 +45,7 @@ extension IndexView {
         func refresh() -> Void {
             self.container.services.data
                 .provideIndex(self.indexSymbol)
+                .subscribe(on: DispatchQueue.global())
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     guard let self = self else { return }

@@ -17,7 +17,7 @@ struct MainScreenTabView: View {
                     Label("Nasdaq 100", systemImage: "list.dash")
                 }
             
-            Text("Favourites tab")
+            FavouritesView(viewModel: .init(container: viewModel.container))
                 .tabItem {
                     Label("Favourites", systemImage: "list.star")
                 }

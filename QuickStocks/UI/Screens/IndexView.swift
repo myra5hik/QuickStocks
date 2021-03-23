@@ -17,12 +17,20 @@ struct IndexView: View {
     }
     
     var body: some View {
-        StockListView(
-            viewModel: .init(
-                container: viewModel.container,
-                stockSymbols: viewModel.index?.constituents ?? []
+        NavigationView {
+            StockListView(
+                viewModel: .init(
+                    container: viewModel.container,
+                    stockSymbols: viewModel.index?.constituents ?? []
+                )
             )
-        )
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(viewModel.index?.symbol ?? "").h2()
+                }
+            }
+        }
     }
 }
 

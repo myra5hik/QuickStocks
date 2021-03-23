@@ -15,12 +15,16 @@ struct StockListView: View {
         ScrollView {
             LazyVStack {
                 ForEach(Array(viewModel.list.enumerated()), id: \.offset) { index, element in
-                    StockListRowView(
-                        model: .init(
-                            container: viewModel.container,
-                            stock: element, isOdd: index % 2 == 1
-                        )
-                    )
+                    NavigationLink(
+                        destination: Text("Detailed View"),
+                        label: {
+                            StockListRowView(
+                                model: .init(
+                                    container: viewModel.container,
+                                    stock: element, isOdd: index % 2 == 1
+                                )
+                            )
+                        })
                 }
             }
         }

@@ -16,9 +16,17 @@ struct FavouritesView: View {
     }
     
     var body: some View {
-        StockListView(
-            viewModel: .init(container: viewModel.container, stockSymbols: viewModel.list)
-        )
+        NavigationView {
+            StockListView(
+                viewModel: .init(container: viewModel.container, stockSymbols: viewModel.list)
+            )
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Favourites").h2()
+                }
+            }
+        }
     }
 }
 

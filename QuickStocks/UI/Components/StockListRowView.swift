@@ -117,15 +117,21 @@ extension StockListRowView {
             self.isOdd = isOdd
             self.isFav = false
             
-            container.appState.$favourites
-                .subscribe(on: DispatchQueue.global())
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] (set) in
-                    self?.isFav = set.contains(stock.symbol)
-                    print("received set: \(set)")
-                }
-                .store(in: &bag)
+            subscribeToFavs()
         }
+    }
+}
+
+private extension StockListRowView.ViewModel {
+    func subscribeToFavs() -> Void {
+        container.appState.$favourites
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (set) in
+                guard let symbol = self?.stock.symbol else { return }
+                self?.isFav = set.contains(symbol)
+            }
+            .store(in: &bag)
     }
 }
 

@@ -44,10 +44,10 @@ extension StockListView {
             self.container = container
             self.symbols = stockSymbols
             self.list = []
-            self.refresh()
+            self.requestData()
         }
         
-        func refresh() -> Void {
+        func requestData() -> Void {
             for symbol in symbols {
                 self.container.services.data
                     .provideStock(symbol)

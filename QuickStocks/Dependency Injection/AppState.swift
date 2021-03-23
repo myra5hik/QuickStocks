@@ -21,6 +21,5 @@ extension AppState {
         if !favourites.insert(symbol).inserted {
             favourites.remove(symbol)
         }
-        print(favourites)
     }
 }

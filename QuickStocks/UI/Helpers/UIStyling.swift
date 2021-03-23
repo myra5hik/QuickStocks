@@ -9,31 +9,37 @@ import Foundation
 import SwiftUI
 
 extension Text {
-    public func withAppFont(size: CGFloat) -> Text {
+    func withAppFont(size: CGFloat) -> Text {
         return self.font(.custom("Montserrat", size: size))
     }
     
-    public func h1() -> Text {
+    func h1() -> Text {
         return self.withAppFont(size: 28.0)
     }
     
-    public func h2() -> Text {
+    func h2() -> Text {
         return self
             .withAppFont(size: 18.0).bold()
             .foregroundColor(Color("Pale Black"))
     }
     
-    public func subheader() -> Text {
+    func h3() -> Text {
+        return self
+            .withAppFont(size: 16.0).fontWeight(.semibold)
+            .foregroundColor(Color("Pale Black"))
+    }
+    
+    func subheader() -> Text {
         return self.withAppFont(size: 11.0).fontWeight(.semibold)
     }
     
-    public func indicatingGrowth() -> Text {
+    func indicatingGrowth() -> Text {
         return self
             .subheader()
             .foregroundColor(Color("Growing Green"))
     }
         
-    public func indicatingDecline() -> Text {
+    func indicatingDecline() -> Text {
         return self
             .subheader()
             .foregroundColor(Color("Declining Red"))

@@ -45,6 +45,8 @@
 		B6CFF198260896D50093BA67 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6CFF186260896D50093BA67 /* Montserrat-Bold.ttf */; };
 		B6CFF19D26091E840093BA67 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF19C26091E840093BA67 /* AppState.swift */; };
 		B6CFF1A02609F3D20093BA67 /* FavouritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF19F2609F3D20093BA67 /* FavouritesView.swift */; };
+		B6CFF1A3260A46850093BA67 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1A2260A46850093BA67 /* SearchView.swift */; };
+		B6CFF1AA260A56830093BA67 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1A9260A56830093BA67 /* SearchBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +90,8 @@
 		B6CFF186260896D50093BA67 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		B6CFF19C26091E840093BA67 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		B6CFF19F2609F3D20093BA67 /* FavouritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesView.swift; sourceTree = "<group>"; };
+		B6CFF1A2260A46850093BA67 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		B6CFF1A9260A56830093BA67 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +209,7 @@
 				B6CFF14C260533F60093BA67 /* MainScreenTabView.swift */,
 				B6CFF1502605352E0093BA67 /* IndexView.swift */,
 				B6CFF19F2609F3D20093BA67 /* FavouritesView.swift */,
+				B6CFF1A2260A46850093BA67 /* SearchView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -214,6 +219,7 @@
 			children = (
 				B6CFF1552605FBC70093BA67 /* StockListView.swift */,
 				B6CFF159260604250093BA67 /* StockListRowView.swift */,
+				B6CFF1A9260A56830093BA67 /* SearchBarView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -357,7 +363,9 @@
 				B6CFF1422605186F0093BA67 /* StocksDataService.swift in Sources */,
 				B6CFF13A260516EA0093BA67 /* Index.swift in Sources */,
 				B6CFF16326068BD70093BA67 /* IexCloudFetcher.swift in Sources */,
+				B6CFF1A3260A46850093BA67 /* SearchView.swift in Sources */,
 				B6CFF14626052EB20093BA67 /* DIContainer.swift in Sources */,
+				B6CFF1AA260A56830093BA67 /* SearchBarView.swift in Sources */,
 				B6CFF1202603E65E0093BA67 /* Stock.swift in Sources */,
 				B6CFF19D26091E840093BA67 /* AppState.swift in Sources */,
 				B6CFF13D2605174B0093BA67 /* Symbol.swift in Sources */,

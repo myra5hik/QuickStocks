@@ -11,7 +11,12 @@ struct MainScreenTabView: View {
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
-        TabView {
+        TabView(selection: .constant(0)) {
+            SearchView(viewModel: .init(container: viewModel.container))
+                .tabItem {
+                    Label("Search", systemImage: "magnifyingglass")
+                }
+            
             IndexView(viewModel: .init(container: viewModel.container, indexSymbol: "Index1"))
                 .tabItem {
                     Label("Nasdaq 100", systemImage: "list.dash")

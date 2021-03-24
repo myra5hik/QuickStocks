@@ -1,5 +1,5 @@
 //
-//  FinnHubFetcher.swift
+//  IexCloudFetcher.swift
 //  QuickStocks
 //
 //  Created by Alexander Tokarev on 20.03.2021.
@@ -48,6 +48,9 @@ private extension IexCloudFetcher {
         static let auth = "pk_83e37c70d33641e49bde944279f6b920"
     }
     
+    //
+    // https://iexcloud.io/docs/api/#quote
+    //
     func quoteComponents(for symbol: Symbol) -> URLComponents {
         var rv = URLComponents()
         rv.scheme = IexCloudFetcher.Components.scheme
@@ -59,6 +62,9 @@ private extension IexCloudFetcher {
         return rv
     }
     
+    //
+    // https://iexcloud.io/docs/api/#batch-requests
+    //
     func quoteComponents(for symbols: [Symbol]) -> URLComponents {
         var rv = URLComponents()
         rv.scheme = IexCloudFetcher.Components.scheme

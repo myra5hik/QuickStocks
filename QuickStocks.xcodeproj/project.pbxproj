@@ -47,6 +47,9 @@
 		B6CFF1A02609F3D20093BA67 /* FavouritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF19F2609F3D20093BA67 /* FavouritesView.swift */; };
 		B6CFF1A3260A46850093BA67 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1A2260A46850093BA67 /* SearchView.swift */; };
 		B6CFF1AA260A56830093BA67 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1A9260A56830093BA67 /* SearchBarView.swift */; };
+		B6CFF1AD260B42DA0093BA67 /* FinnHubFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1AC260B42DA0093BA67 /* FinnHubFetcher.swift */; };
+		B6CFF1B1260B43970093BA67 /* FetcherError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1B0260B43970093BA67 /* FetcherError.swift */; };
+		B6CFF1B4260B5CFD0093BA67 /* HardCodedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1B3260B5CFD0093BA67 /* HardCodedData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +95,9 @@
 		B6CFF19F2609F3D20093BA67 /* FavouritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesView.swift; sourceTree = "<group>"; };
 		B6CFF1A2260A46850093BA67 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		B6CFF1A9260A56830093BA67 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		B6CFF1AC260B42DA0093BA67 /* FinnHubFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinnHubFetcher.swift; sourceTree = "<group>"; };
+		B6CFF1B0260B43970093BA67 /* FetcherError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetcherError.swift; sourceTree = "<group>"; };
+		B6CFF1B3260B5CFD0093BA67 /* HardCodedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardCodedData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,11 +152,11 @@
 		B6CFF11A260292DF0093BA67 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B6CFF1B7260B67990093BA67 /* Data */,
 				B6CFF1742608965E0093BA67 /* Fonts */,
 				B6CFF10C260292960093BA67 /* Preview Content */,
 				B6CFF10A260292960093BA67 /* Assets.xcassets */,
 				B6CFF10F260292960093BA67 /* LaunchScreen.storyboard */,
-				B6CFF1682607C3290093BA67 /* StubData.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -177,7 +183,7 @@
 		B6CFF1402605185A0093BA67 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				B6CFF15E260686940093BA67 /* IexCloudAPI */,
+				B6CFF15E260686940093BA67 /* APIs */,
 				B6CFF1412605186F0093BA67 /* StocksDataService.swift */,
 			);
 			path = Services;
@@ -224,12 +230,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		B6CFF15E260686940093BA67 /* IexCloudAPI */ = {
+		B6CFF15E260686940093BA67 /* APIs */ = {
 			isa = PBXGroup;
 			children = (
 				B6CFF16226068BD70093BA67 /* IexCloudFetcher.swift */,
+				B6CFF1AC260B42DA0093BA67 /* FinnHubFetcher.swift */,
+				B6CFF1B0260B43970093BA67 /* FetcherError.swift */,
 			);
-			path = IexCloudAPI;
+			path = APIs;
 			sourceTree = "<group>";
 		};
 		B6CFF16B2607D37F0093BA67 /* Helpers */ = {
@@ -263,6 +271,15 @@
 				B6CFF182260896D40093BA67 /* Montserrat-ThinItalic.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		B6CFF1B7260B67990093BA67 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				B6CFF1682607C3290093BA67 /* StubData.swift */,
+				B6CFF1B3260B5CFD0093BA67 /* HardCodedData.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -357,8 +374,10 @@
 				B6CFF105260292930093BA67 /* AppDelegate.swift in Sources */,
 				B6CFF1A02609F3D20093BA67 /* FavouritesView.swift in Sources */,
 				B6CFF107260292930093BA67 /* SceneDelegate.swift in Sources */,
+				B6CFF1B4260B5CFD0093BA67 /* HardCodedData.swift in Sources */,
 				B6CFF1692607C3290093BA67 /* StubData.swift in Sources */,
 				B6CFF172260893CB0093BA67 /* UIStyling.swift in Sources */,
+				B6CFF1B1260B43970093BA67 /* FetcherError.swift in Sources */,
 				B6CFF1562605FBC70093BA67 /* StockListView.swift in Sources */,
 				B6CFF1422605186F0093BA67 /* StocksDataService.swift in Sources */,
 				B6CFF13A260516EA0093BA67 /* Index.swift in Sources */,
@@ -371,6 +390,7 @@
 				B6CFF13D2605174B0093BA67 /* Symbol.swift in Sources */,
 				B6CFF109260292930093BA67 /* ContentView.swift in Sources */,
 				B6CFF14D260533F60093BA67 /* MainScreenTabView.swift in Sources */,
+				B6CFF1AD260B42DA0093BA67 /* FinnHubFetcher.swift in Sources */,
 				B6CFF1512605352E0093BA67 /* IndexView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

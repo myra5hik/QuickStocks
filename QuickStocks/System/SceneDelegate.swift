@@ -21,7 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create the SwiftUI view that provides the window contents.
         let services = DIContainer.Services(
             data: StockDataService(
-                iexService: IexCloudFetcher()
+                iexFetcher: IexCloudFetcher(),
+                finnhubFetcher: FinnHubFetcher()
             )
         )
         let container = DIContainer(services: services)

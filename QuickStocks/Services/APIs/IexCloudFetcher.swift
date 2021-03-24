@@ -9,12 +9,7 @@ import Foundation
 import Combine
 
 protocol IexCloudProtocol {
-    func fetchStock(_ symbol: Symbol) -> AnyPublisher<Stock, IexCloudFetcherError>
-}
-
-enum IexCloudFetcherError: Error {
-    case networking(description: String)
-    case parsing(description: String)
+    func fetchStock(_ symbol: Symbol) -> AnyPublisher<Stock, FetcherError>
 }
 
 class IexCloudFetcher {
@@ -22,9 +17,9 @@ class IexCloudFetcher {
 }
 
 extension IexCloudFetcher: IexCloudProtocol {
-    func fetchStock(_ symbol: Symbol) -> AnyPublisher<Stock, IexCloudFetcherError> {
+    func fetchStock(_ symbol: Symbol) -> AnyPublisher<Stock, FetcherError> {
         guard let url = quoteComponents(for: symbol).url else {
-            let error = IexCloudFetcherError.networking(
+            let error = FetcherError.networking(
                 description: "IexCloudFetcher couldn't create URL for \(symbol)"
             )
             return Fail(error: error).eraseToAnyPublisher()
@@ -32,12 +27,12 @@ extension IexCloudFetcher: IexCloudProtocol {
         
         return session.dataTaskPublisher(for: URLRequest(url: url))
             .mapError { error in
-                IexCloudFetcherError.networking(description: error.localizedDescription)
+                FetcherError.networking(description: error.localizedDescription)
             }
             .map { $0.data }
             .decode(type: Stock.self, decoder: JSONDecoder())
             .mapError { error in
-                IexCloudFetcherError.parsing(description: error.localizedDescription)
+                FetcherError.parsing(description: error.localizedDescription)
             }
             .eraseToAnyPublisher()
     }
@@ -76,7 +71,6 @@ private extension IexCloudFetcher {
             URLQueryItem(name: "types", value: "quote"),
             URLQueryItem(name: "token", value: IexCloudFetcher.Components.auth)
         ]
-        print(rv)
         return rv
     }
 }

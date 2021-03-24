@@ -7,9 +7,16 @@
 
 import Foundation
 
-struct Index {
+struct Index: Decodable {
     let symbol: Symbol
     let constituents: [Symbol]
+    
+    var name: String { return SupportedIndices.name(for: self.symbol) ?? self.symbol }
+    
+    enum CodingKeys: String, CodingKey {
+        case symbol
+        case constituents
+    }
 }
 
 extension Index: Identifiable {

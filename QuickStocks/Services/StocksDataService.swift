@@ -20,10 +20,12 @@ enum DataServiceError: Error {
 // MARK: - Real implementation
 
 class StockDataService: StocksDataServiceProtocol {
-    private let iexCloudService: IexCloudProtocol
+    private let iexCloudFetcher: IexCloudProtocol
+    private let finnhubFetcher: FinnHubProtocol
     
-    init(iexService: IexCloudProtocol) {
-        self.iexCloudService = iexService
+    init(iexFetcher: IexCloudProtocol, finnhubFetcher: FinnHubProtocol) {
+        self.iexCloudFetcher = iexFetcher
+        self.finnhubFetcher = finnhubFetcher
     }
     
     func provideIndex(_ symbol: Symbol) -> AnyPublisher<Index, DataServiceError> {
@@ -33,7 +35,7 @@ class StockDataService: StocksDataServiceProtocol {
     }
     
     func provideStock(_ symbol: Symbol) -> AnyPublisher<Stock, DataServiceError> {
-        return iexCloudService.fetchStock(symbol)
+        return iexCloudFetcher.fetchStock(symbol)
             .mapError {
                 DataServiceError.fetcher(description: $0.localizedDescription)
             }

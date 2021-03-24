@@ -50,6 +50,7 @@
 		B6CFF1AD260B42DA0093BA67 /* FinnHubFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1AC260B42DA0093BA67 /* FinnHubFetcher.swift */; };
 		B6CFF1B1260B43970093BA67 /* FetcherError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1B0260B43970093BA67 /* FetcherError.swift */; };
 		B6CFF1B4260B5CFD0093BA67 /* HardCodedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1B3260B5CFD0093BA67 /* HardCodedData.swift */; };
+		B6CFF1BB260BAEAC0093BA67 /* FinnhubSymbolLookupResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1BA260BAEAB0093BA67 /* FinnhubSymbolLookupResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +99,7 @@
 		B6CFF1AC260B42DA0093BA67 /* FinnHubFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinnHubFetcher.swift; sourceTree = "<group>"; };
 		B6CFF1B0260B43970093BA67 /* FetcherError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetcherError.swift; sourceTree = "<group>"; };
 		B6CFF1B3260B5CFD0093BA67 /* HardCodedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardCodedData.swift; sourceTree = "<group>"; };
+		B6CFF1BA260BAEAB0093BA67 /* FinnhubSymbolLookupResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinnhubSymbolLookupResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +235,7 @@
 		B6CFF15E260686940093BA67 /* APIs */ = {
 			isa = PBXGroup;
 			children = (
+				B6CFF1B9260BAE860093BA67 /* Responses */,
 				B6CFF16226068BD70093BA67 /* IexCloudFetcher.swift */,
 				B6CFF1AC260B42DA0093BA67 /* FinnHubFetcher.swift */,
 				B6CFF1B0260B43970093BA67 /* FetcherError.swift */,
@@ -280,6 +283,14 @@
 				B6CFF1B3260B5CFD0093BA67 /* HardCodedData.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		B6CFF1B9260BAE860093BA67 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				B6CFF1BA260BAEAB0093BA67 /* FinnhubSymbolLookupResponse.swift */,
+			);
+			path = Responses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -386,6 +397,7 @@
 				B6CFF14626052EB20093BA67 /* DIContainer.swift in Sources */,
 				B6CFF1AA260A56830093BA67 /* SearchBarView.swift in Sources */,
 				B6CFF1202603E65E0093BA67 /* Stock.swift in Sources */,
+				B6CFF1BB260BAEAC0093BA67 /* FinnhubSymbolLookupResponse.swift in Sources */,
 				B6CFF19D26091E840093BA67 /* AppState.swift in Sources */,
 				B6CFF13D2605174B0093BA67 /* Symbol.swift in Sources */,
 				B6CFF109260292930093BA67 /* ContentView.swift in Sources */,

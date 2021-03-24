@@ -11,6 +11,7 @@ import Combine
 protocol StocksDataServiceProtocol {
     func provideIndex(_ symbol: Symbol) -> AnyPublisher<Index, DataServiceError>
     func provideStock(_ symbol: Symbol) -> AnyPublisher<Stock, DataServiceError>
+    func searchStock(_ query: String) -> AnyPublisher<[Symbol], DataServiceError>
 }
 
 enum DataServiceError: Error {
@@ -41,6 +42,20 @@ class StockDataService: StocksDataServiceProtocol {
             }
             .eraseToAnyPublisher()
     }
+    
+    func searchStock(_ query: String) -> AnyPublisher<[Symbol], DataServiceError> {
+        guard query != "" else {
+            return Just([])
+                .setFailureType(to: DataServiceError.self)
+                .eraseToAnyPublisher()
+        }
+        
+        return finnhubFetcher.searchSymbol(query)
+            .mapError { (error) -> DataServiceError in
+                DataServiceError.fetcher(description: error.localizedDescription)
+            }
+            .eraseToAnyPublisher()
+    }
 }
 
 // MARK: - Stub implementation
@@ -54,6 +69,12 @@ class StubStockDataService: StocksDataServiceProtocol {
     
     func provideStock(_ symbol: Symbol) -> AnyPublisher<Stock, DataServiceError> {
         return Just(StubData.stocks[0])
+            .setFailureType(to: DataServiceError.self)
+            .eraseToAnyPublisher()
+    }
+    
+    func searchStock(_ query: String) -> AnyPublisher<[Symbol], DataServiceError> {
+        return Just(["AAPL", "AAPL.SW", "APC.BE"])
             .setFailureType(to: DataServiceError.self)
             .eraseToAnyPublisher()
     }

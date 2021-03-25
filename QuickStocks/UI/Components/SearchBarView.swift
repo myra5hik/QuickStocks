@@ -90,8 +90,9 @@ extension SearchBarView {
         let container: DIContainer
         private var bag = Set<AnyCancellable>()
         
-        init(container: DIContainer) {
+        init(container: DIContainer, publisher: Optional<(AnyPublisher<String, Never>) -> ()>) {
             self.container = container
+            publisher?($input.eraseToAnyPublisher())
         }
     }
 }
@@ -100,7 +101,7 @@ extension SearchBarView {
 
 fileprivate extension SearchBarView.ViewModel {
     convenience init(active: Bool, input: String) {
-        self.init(container: DIContainer.stub)
+        self.init(container: DIContainer.stub, publisher: nil)
         self.isActive = active
         self.input = input
     }

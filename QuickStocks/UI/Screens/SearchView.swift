@@ -28,7 +28,7 @@ struct SearchView: View {
 private extension SearchView {
     var searchBar: some View {
         SearchBarView(
-            viewModel: .init(container: viewModel.container)
+            viewModel: .init(container: viewModel.container, publisher: nil)
         ).padding()
     }
     

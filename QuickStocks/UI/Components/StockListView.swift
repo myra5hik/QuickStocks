@@ -57,15 +57,8 @@ extension StockListView {
                     .provideStock(symbol)
                     .subscribe(on: DispatchQueue.global())
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] (value) in
-                        guard let self = self else { return }
-                        switch value {
-                        case .failure(_):
-                            self.list = []
-                        case .finished:
-                            break
-                        }
-                    } receiveValue: { [weak self] (stock) in
+                    .sink { (value) in }
+                        receiveValue: { [weak self] (stock) in
                         guard let self = self else { return }
                         self.list.append(stock)
                     }

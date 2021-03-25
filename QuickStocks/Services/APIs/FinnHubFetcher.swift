@@ -38,7 +38,7 @@ extension FinnHubFetcher: FinnHubProtocol {
     }
     
     func searchSymbol(_ query: String) -> AnyPublisher<[Symbol], FetcherError> {
-        guard let url = indexComponents(for: query).url else {
+        guard let url = searchComponents(query: query).url else {
             return Fail(
                 error: FetcherError.networking(description: "FinnhubFetcher couldn't create URL for \(query)")
             ).eraseToAnyPublisher()
@@ -51,7 +51,8 @@ extension FinnHubFetcher: FinnHubProtocol {
             .map { $0.data }
             .decode(type: ResponseFinnhubSymbolLookup.self, decoder: JSONDecoder())
             .mapError { (error) -> FetcherError in
-                FetcherError.parsing(description: error.localizedDescription)
+                print(error)
+                return FetcherError.parsing(description: error.localizedDescription)
             }
             .map { (response) -> [Symbol] in
                 response.result.map { $0.symbol }
@@ -89,7 +90,7 @@ private extension FinnHubFetcher {
         var rv = URLComponents()
         rv.scheme = FinnHubFetcher.Components.scheme
         rv.host = FinnHubFetcher.Components.host
-        rv.path = FinnHubFetcher.Components.rootPath + "/index"
+        rv.path = FinnHubFetcher.Components.rootPath + "/search"
         rv.queryItems = [
             URLQueryItem(name: "q", value: query),
             URLQueryItem(name: "token", value: FinnHubFetcher.Components.auth)

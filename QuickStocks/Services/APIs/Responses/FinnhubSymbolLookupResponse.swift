@@ -23,13 +23,13 @@ struct ResponseFinnhubSymbolLookup: Codable, Equatable {
 
 extension ResponseFinnhubSymbolLookup {
     struct Result: Codable, Equatable {
-        let resultDescription: String
+        let description: String
         let displaySymbol: String
         let symbol: String
         let type: String
 
         enum CodingKeys: String, CodingKey {
-            case resultDescription
+            case description
             case displaySymbol
             case symbol
             case type

@@ -27,9 +27,7 @@ struct SearchView: View {
 
 private extension SearchView {
     var searchBar: some View {
-        SearchBarView(
-            viewModel: .init(container: viewModel.container, publisher: nil)
-        ).padding()
+        SearchBarView(input: $viewModel.searched).padding()
     }
     
     var listView: some View {
@@ -58,7 +56,30 @@ extension SearchView {
         init(container: DIContainer) {
             self.container = container
             self.bag = .init()
+            subscribeToData()
         }
+    }
+}
+
+private extension SearchView.ViewModel {
+    func subscribeToData() -> Void {
+        $searched
+            .debounce(for: 0.5, scheduler: DispatchQueue.global())
+            .flatMap { [weak self] (query) -> AnyPublisher<[Symbol], DataServiceError> in
+                self!.container.services.data.searchStock(query)
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { (completion) in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("SearchView encountered error loading query: \(error)")
+                }
+            } receiveValue: { [weak self] (value) in
+                self?.list = value
+            }
+            .store(in: &bag)
     }
 }
 

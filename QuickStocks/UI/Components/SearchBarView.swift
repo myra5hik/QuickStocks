@@ -9,11 +9,8 @@ import SwiftUI
 import Combine
 
 struct SearchBarView: View {
-    @ObservedObject private(set) var viewModel: ViewModel
-    
-    init(viewModel: ViewModel) {
-        self.viewModel = viewModel
-    }
+    @Binding var input: String
+    @State private var isActive = false
     
     var body: some View {
         ZStack {
@@ -21,7 +18,7 @@ struct SearchBarView: View {
             HStack(alignment: .center, spacing: 10) {
                 leftIcon
                 textField
-                if !viewModel.input.isEmpty {
+                if !input.isEmpty {
                     rightIcon
                 }
             }
@@ -41,17 +38,17 @@ private extension SearchBarView {
                 RoundedRectangle(cornerRadius: 48 / 2)
                     .stroke(
                         Color("Pale Black"),
-                        style: StrokeStyle(lineWidth: viewModel.isActive ? 2 : 1)
+                        style: StrokeStyle(lineWidth: isActive ? 2 : 1)
                     )
             )
     }
     
     var leftIcon: some View {
-        Image(systemName: viewModel.isActive ? "arrow.backward" : "magnifyingglass")
+        Image(systemName: isActive ? "arrow.backward" : "magnifyingglass")
             .font(.system(size: 20, weight: .regular))
             .foregroundColor(Color("Pale Black"))
             .onTapGesture {
-                viewModel.input = ""
+                input = ""
                 UIApplication.shared.sendAction(
                     #selector(UIResponder.resignFirstResponder),
                     to: nil, from: nil, for: nil
@@ -64,15 +61,15 @@ private extension SearchBarView {
             .font(.system(size: 20, weight: .regular))
             .foregroundColor(Color("Pale Black"))
             .onTapGesture {
-                viewModel.input = ""
+                input = ""
             }
     }
     
     var textField: some View {
-        TextField("Find company or ticker", text: $viewModel.input) {
-            viewModel.isActive = $0
+        TextField("Find company or ticker", text: $input) {
+            isActive = $0
         } onCommit: {
-            viewModel.isActive = false
+            isActive = false
         }
             .font(.custom("Montserrat", size: 16))
             .foregroundColor(Color("Pale Black"))
@@ -80,39 +77,21 @@ private extension SearchBarView {
     }
 }
 
-// MARK: - ViewModel
-
-extension SearchBarView {
-    class ViewModel: ObservableObject {
-        @Published var isActive = false
-        @Published var input = ""
-        
-        let container: DIContainer
-        private var bag = Set<AnyCancellable>()
-        
-        init(container: DIContainer, publisher: Optional<(AnyPublisher<String, Never>) -> ()>) {
-            self.container = container
-            publisher?($input.eraseToAnyPublisher())
-        }
-    }
-}
-
 // MARK: - Preview
 
-fileprivate extension SearchBarView.ViewModel {
-    convenience init(active: Bool, input: String) {
-        self.init(container: DIContainer.stub, publisher: nil)
+fileprivate extension SearchBarView {
+    init(active: Bool, input: String) {
+        self.init(input: .constant(input))
         self.isActive = active
-        self.input = input
     }
 }
 
 struct SearchBarView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SearchBarView(viewModel: .init(active: false, input: ""))
-            SearchBarView(viewModel: .init(active: true, input: ""))
-            SearchBarView(viewModel: .init(active: true, input: "App"))
+            SearchBarView(active: false, input: "")
+            SearchBarView(active: true, input: "")
+            SearchBarView(active: true, input: "App")
         }
         .previewLayout(.fixed(width: 350, height: 70))
     }

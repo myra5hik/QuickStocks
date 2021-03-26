@@ -35,8 +35,10 @@ class StockDataService: StocksDataServiceProtocol {
     }
     
     func provideIndex(_ symbol: Symbol) -> AnyPublisher<Index, DataServiceError> {
-        return Just(StubData.indices[0])
-            .setFailureType(to: DataServiceError.self)
+        return finnhubFetcher.fetchIndex(symbol)
+            .mapError { (error) -> DataServiceError in
+                DataServiceError.fetcher(description: error.localizedDescription)
+            }
             .eraseToAnyPublisher()
     }
     

@@ -17,7 +17,7 @@ struct MainScreenTabView: View {
                     Label("Search", systemImage: "magnifyingglass")
                 }
             
-            IndexView(viewModel: .init(container: viewModel.container, indexSymbol: "Index1"))
+            IndexView(viewModel: .init(container: viewModel.container, indexSymbol: "^NDX"))
                 .tabItem {
                     Label("Nasdaq 100", systemImage: "list.dash")
                 }

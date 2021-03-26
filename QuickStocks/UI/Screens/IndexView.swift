@@ -27,7 +27,7 @@ struct IndexView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(viewModel.index?.symbol ?? "").h2()
+                    Text(viewModel.index?.name ?? "").h2()
                 }
             }
         }

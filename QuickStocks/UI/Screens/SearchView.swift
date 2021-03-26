@@ -69,12 +69,13 @@ private extension SearchView.ViewModel {
                 self!.container.services.data.searchStock(query)
             }
             .receive(on: DispatchQueue.main)
-            .sink { (completion) in
+            .sink { [weak self] (completion) in
                 switch completion {
                 case .finished:
                     break
                 case .failure(let error):
                     print("SearchView encountered error loading query: \(error)")
+                    self?.list = []
                 }
             } receiveValue: { [weak self] (value) in
                 self?.list = value

@@ -13,7 +13,7 @@ struct StockListView: View {
     
     var body: some View {
         ScrollView {
-            LazyVStack {
+            LazyVStack(spacing: 0.0) {
                 ForEach(Array(viewModel.list.enumerated()), id: \.offset) { index, element in
                     NavigationLink(
                         destination: Text("Detailed View"),
@@ -29,8 +29,6 @@ struct StockListView: View {
             }
         }
         .padding(.horizontal, 16.0)
-        
-        // TODO: Remove insets
     }
 }
 

@@ -12,6 +12,13 @@ struct SearchBarView: View {
     @Binding var input: String
     @State private var isActive = false
     
+    private let onDismiss: Optional<() -> ()>
+    
+    init(input: Binding<String>, onDismiss: Optional<() -> ()> = nil) {
+        self._input = input
+        self.onDismiss = onDismiss
+    }
+    
     var body: some View {
         ZStack {
             roundedFrame
@@ -48,11 +55,14 @@ private extension SearchBarView {
             .font(.system(size: 20, weight: .regular))
             .foregroundColor(Color("Pale Black"))
             .onTapGesture {
-                input = ""
-                UIApplication.shared.sendAction(
-                    #selector(UIResponder.resignFirstResponder),
-                    to: nil, from: nil, for: nil
-                )
+                if isActive {
+                    input = ""
+                    UIApplication.shared.sendAction(
+                        #selector(UIResponder.resignFirstResponder),
+                        to: nil, from: nil, for: nil
+                    )
+                    onDismiss?()
+                }
             }
     }
     
@@ -62,6 +72,7 @@ private extension SearchBarView {
             .foregroundColor(Color("Pale Black"))
             .onTapGesture {
                 input = ""
+                onDismiss?()
             }
     }
     

@@ -27,7 +27,13 @@ struct SearchView: View {
 
 private extension SearchView {
     var searchBar: some View {
-        SearchBarView(input: $viewModel.searched).padding()
+        SearchBarView(
+            input: $viewModel.searched,
+            onDismiss: {
+                viewModel.list = []
+            }
+        )
+        .padding()
     }
     
     var listView: some View {

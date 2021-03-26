@@ -70,10 +70,16 @@ extension SearchView {
 private extension SearchView.ViewModel {
     func subscribeToData() -> Void {
         $searched
+            .subscribe(on: DispatchQueue.global())
             .debounce(for: 0.5, scheduler: DispatchQueue.global())
-            .flatMap { [weak self] (query) -> AnyPublisher<[Symbol], DataServiceError> in
-                self!.container.services.data.searchStock(query)
+            .map { [weak self] (query) -> AnyPublisher<[Symbol], DataServiceError>? in
+                self?.container.services.data.searchStock(query)
             }
+            .replaceNil(
+                with: Just([]).setFailureType(to: DataServiceError.self).eraseToAnyPublisher()
+            )
+            .switchToLatest()
+            .print()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (completion) in
                 switch completion {

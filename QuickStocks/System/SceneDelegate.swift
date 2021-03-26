@@ -22,7 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let services = DIContainer.Services(
             data: StockDataService(
                 iexFetcher: IexCloudFetcher(),
-                finnhubFetcher: FinnHubFetcher()
+                finnhubFetcher: FinnHubFetcher(),
+                cacheManager: CacheManager()
             )
         )
         let container = DIContainer(services: services)

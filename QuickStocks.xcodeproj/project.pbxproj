@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -51,6 +51,8 @@
 		B6CFF1B1260B43970093BA67 /* FetcherError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1B0260B43970093BA67 /* FetcherError.swift */; };
 		B6CFF1B4260B5CFD0093BA67 /* HardCodedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1B3260B5CFD0093BA67 /* HardCodedData.swift */; };
 		B6CFF1BB260BAEAC0093BA67 /* FinnhubSymbolLookupResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1BA260BAEAB0093BA67 /* FinnhubSymbolLookupResponse.swift */; };
+		B6CFF1BE260DE0760093BA67 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF1BD260DE0740093BA67 /* CacheManager.swift */; };
+		B6CFF1C2260DE5350093BA67 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = B6CFF1C1260DE5350093BA67 /* Cache */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +102,7 @@
 		B6CFF1B0260B43970093BA67 /* FetcherError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetcherError.swift; sourceTree = "<group>"; };
 		B6CFF1B3260B5CFD0093BA67 /* HardCodedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardCodedData.swift; sourceTree = "<group>"; };
 		B6CFF1BA260BAEAB0093BA67 /* FinnhubSymbolLookupResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinnhubSymbolLookupResponse.swift; sourceTree = "<group>"; };
+		B6CFF1BD260DE0740093BA67 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6CFF1C2260DE5350093BA67 /* Cache in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +191,7 @@
 			children = (
 				B6CFF15E260686940093BA67 /* APIs */,
 				B6CFF1412605186F0093BA67 /* StocksDataService.swift */,
+				B6CFF1BD260DE0740093BA67 /* CacheManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -309,6 +314,9 @@
 			dependencies = (
 			);
 			name = QuickStocks;
+			packageProductDependencies = (
+				B6CFF1C1260DE5350093BA67 /* Cache */,
+			);
 			productName = QuickStocks;
 			productReference = B6CFF101260292930093BA67 /* QuickStocks.app */;
 			productType = "com.apple.product-type.application";
@@ -336,6 +344,9 @@
 				Base,
 			);
 			mainGroup = B6CFF0F8260292930093BA67;
+			packageReferences = (
+				B6CFF1C0260DE5350093BA67 /* XCRemoteSwiftPackageReference "Cache" */,
+			);
 			productRefGroup = B6CFF102260292930093BA67 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -385,6 +396,7 @@
 				B6CFF105260292930093BA67 /* AppDelegate.swift in Sources */,
 				B6CFF1A02609F3D20093BA67 /* FavouritesView.swift in Sources */,
 				B6CFF107260292930093BA67 /* SceneDelegate.swift in Sources */,
+				B6CFF1BE260DE0760093BA67 /* CacheManager.swift in Sources */,
 				B6CFF1B4260B5CFD0093BA67 /* HardCodedData.swift in Sources */,
 				B6CFF1692607C3290093BA67 /* StubData.swift in Sources */,
 				B6CFF172260893CB0093BA67 /* UIStyling.swift in Sources */,
@@ -601,6 +613,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B6CFF1C0260DE5350093BA67 /* XCRemoteSwiftPackageReference "Cache" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hyperoslo/Cache.git";
+			requirement = {
+				kind = exactVersion;
+				version = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B6CFF1C1260DE5350093BA67 /* Cache */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B6CFF1C0260DE5350093BA67 /* XCRemoteSwiftPackageReference "Cache" */;
+			productName = Cache;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B6CFF0F9260292930093BA67 /* Project object */;
 }

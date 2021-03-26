@@ -23,10 +23,15 @@ enum DataServiceError: Error {
 class StockDataService: StocksDataServiceProtocol {
     private let iexCloudFetcher: IexCloudProtocol
     private let finnhubFetcher: FinnHubProtocol
+    private let cacheManager: CacheManagerProtocol
     
-    init(iexFetcher: IexCloudProtocol, finnhubFetcher: FinnHubProtocol) {
+    init(
+        iexFetcher: IexCloudProtocol, finnhubFetcher: FinnHubProtocol,
+        cacheManager: CacheManagerProtocol
+    ) {
         self.iexCloudFetcher = iexFetcher
         self.finnhubFetcher = finnhubFetcher
+        self.cacheManager = cacheManager
     }
     
     func provideIndex(_ symbol: Symbol) -> AnyPublisher<Index, DataServiceError> {
@@ -36,11 +41,23 @@ class StockDataService: StocksDataServiceProtocol {
     }
     
     func provideStock(_ symbol: Symbol) -> AnyPublisher<Stock, DataServiceError> {
-        return iexCloudFetcher.fetchStock(symbol)
+        let fetchTask = iexCloudFetcher.fetchStock(symbol)
             .mapError {
                 DataServiceError.fetcher(description: $0.localizedDescription)
             }
+            .map { [weak self] (stock) -> Stock in
+                self?.cacheManager.store(stock: stock)
+                return stock
+            }
             .eraseToAnyPublisher()
+        
+        let cacheTask = cacheManager.get(stock: symbol)
+            .catch { (_) -> AnyPublisher<Stock, DataServiceError> in
+                fetchTask
+            }
+            .eraseToAnyPublisher()
+        
+        return cacheTask
     }
     
     func searchStock(_ query: String) -> AnyPublisher<[Symbol], DataServiceError> {

@@ -82,9 +82,10 @@ private extension SearchBarView {
         } onCommit: {
             isActive = false
         }
-            .font(.custom("Montserrat", size: 16))
-            .foregroundColor(Color("Pale Black"))
-            .disableAutocorrection(true)
+        .font(.custom("Montserrat", size: 16))
+        .foregroundColor(Color("Pale Black"))
+        .disableAutocorrection(true)
+        .autocapitalization(.none)
     }
 }
 

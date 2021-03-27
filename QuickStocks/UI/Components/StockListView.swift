@@ -24,11 +24,11 @@ struct StockListView: View {
                                     stock: element, isOdd: index % 2 == 1
                                 )
                             )
+                            .padding(.horizontal, 16.0)
                         })
                 }
             }
         }
-        .padding(.horizontal, 16.0)
     }
 }
 

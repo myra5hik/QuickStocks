@@ -17,10 +17,10 @@ struct SearchView: View {
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .center) {
+            VStack(alignment: .center, spacing: 0) {
                 searchBar
                 listView
-                Spacer()
+                Spacer(minLength: 0)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -144,16 +144,18 @@ private extension SearchView.ViewModel {
 // MARK: - Preview
 
 fileprivate extension SearchView {
-    init(list: Loadable<[Symbol]>) {
+    init(list: Loadable<[Symbol]>, query: String = "") {
         self.viewModel = .init(container: DIContainer.stub)
         self.viewModel.list = list
+        self.viewModel.searched = query
     }
 }
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SearchView(list: .loaded([]))
+            SearchView(list: .loaded(["AAPL"]))
+            SearchView(list: .loaded([]), query: "Abcde")
             SearchView(list: .idle)
             SearchView(list: .loading)
             SearchView(list: .errorLoading)

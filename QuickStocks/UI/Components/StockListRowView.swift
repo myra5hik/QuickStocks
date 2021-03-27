@@ -26,6 +26,7 @@ struct StockListRowView: View {
             HStack(alignment: .center, spacing: 0.0) {
                 logoImage
                     .frame(width: 52.0, height: 52.0, alignment: .center)
+                    .cornerRadius(10.0)
                     .padding(.leading, 8.0)
                 nameGroup
                 Spacer()
@@ -42,9 +43,11 @@ private extension StockListRowView {
     var logoImage: some View {
         switch viewModel.logo {
         case .loaded(let image):
-            return AnyView(image
-                .resizable()
-                .cornerRadius(10.0))
+            return AnyView(
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            )
         case .loading:
             return AnyView(ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: Color("Pale Black")))

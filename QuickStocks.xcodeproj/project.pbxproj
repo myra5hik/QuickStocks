@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B649E245260F34FA0059AE12 /* Loadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B649E244260F34FA0059AE12 /* Loadable.swift */; };
 		B6CFF105260292930093BA67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF104260292930093BA67 /* AppDelegate.swift */; };
 		B6CFF107260292930093BA67 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF106260292930093BA67 /* SceneDelegate.swift */; };
 		B6CFF109260292930093BA67 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF108260292930093BA67 /* ContentView.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B649E244260F34FA0059AE12 /* Loadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
 		B6CFF101260292930093BA67 /* QuickStocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickStocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6CFF104260292930093BA67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6CFF106260292930093BA67 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +119,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B649E243260F34DF0059AE12 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B649E244260F34FA0059AE12 /* Loadable.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		B6CFF0F8260292930093BA67 = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +149,7 @@
 				B6CFF14426052E970093BA67 /* Dependency Injection */,
 				B6CFF1402605185A0093BA67 /* Services */,
 				B6CFF11E2603E5DC0093BA67 /* Models */,
+				B649E243260F34DF0059AE12 /* Utilities */,
 				B6CFF14A260533800093BA67 /* UI */,
 				B6CFF11B260293160093BA67 /* System */,
 				B6CFF11A260292DF0093BA67 /* Resources */,
@@ -401,6 +412,7 @@
 				B6CFF1692607C3290093BA67 /* StubData.swift in Sources */,
 				B6CFF172260893CB0093BA67 /* UIStyling.swift in Sources */,
 				B6CFF1B1260B43970093BA67 /* FetcherError.swift in Sources */,
+				B649E245260F34FA0059AE12 /* Loadable.swift in Sources */,
 				B6CFF1562605FBC70093BA67 /* StockListView.swift in Sources */,
 				B6CFF1422605186F0093BA67 /* StocksDataService.swift in Sources */,
 				B6CFF13A260516EA0093BA67 /* FinIndex.swift in Sources */,

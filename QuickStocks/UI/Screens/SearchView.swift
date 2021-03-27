@@ -79,16 +79,15 @@ private extension SearchView {
     }
     
     var emptyList: some View {
-        return Text("Couldn't find anything for \(viewModel.searched)").h3()
+        return Text("Couldn't find anything for \(viewModel.searched)").h3().padding()
     }
     
     var errorLoadingList: some View {
-        return Label("Network error", systemImage: "wifi.exclamationmark")
-            .padding()
+        return Label("Network error", systemImage: "wifi.exclamationmark").padding()
     }
     
     var suggestion: some View {
-        return Text("Input search query").h3()
+        return Text("Input search query").h3().padding()
     }
 }
 
@@ -154,7 +153,6 @@ fileprivate extension SearchView {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SearchView(list: .loaded(["AAPL"]))
             SearchView(list: .loaded([]), query: "Abcde")
             SearchView(list: .idle)
             SearchView(list: .loading)

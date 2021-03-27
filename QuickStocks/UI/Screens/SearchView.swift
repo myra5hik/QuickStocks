@@ -105,13 +105,13 @@ extension SearchView {
         init(container: DIContainer) {
             self.container = container
             self.disposables = .init()
-            subscribeToData()
+            subsribeToUserInput()
         }
     }
 }
 
 private extension SearchView.ViewModel {
-    func subscribeToData() -> Void {
+    func subsribeToUserInput() -> Void {
         $searched
             .subscribe(on: DispatchQueue.global())
             .dropFirst()

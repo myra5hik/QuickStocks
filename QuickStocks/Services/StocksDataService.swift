@@ -7,11 +7,13 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 protocol StocksDataServiceProtocol {
     func provideIndex(_ symbol: Symbol) -> AnyPublisher<FinIndex, DataServiceError>
     func provideStock(_ symbol: Symbol) -> AnyPublisher<Stock, DataServiceError>
     func searchStock(_ query: String) -> AnyPublisher<[Symbol], DataServiceError>
+    func provideLogo(_ stock: Symbol) -> AnyPublisher<Image, DataServiceError>
 }
 
 enum DataServiceError: Error {
@@ -75,6 +77,10 @@ class StockDataService: StocksDataServiceProtocol {
             }
             .eraseToAnyPublisher()
     }
+    
+    func provideLogo(_ stock: Symbol) -> AnyPublisher<Image, DataServiceError> {
+        return StubStockDataService().provideLogo("YNDX")
+    }
 }
 
 // MARK: - Stub implementation
@@ -94,6 +100,12 @@ class StubStockDataService: StocksDataServiceProtocol {
     
     func searchStock(_ query: String) -> AnyPublisher<[Symbol], DataServiceError> {
         return Just(["AAPL", "AAPL.SW", "APC.BE"])
+            .setFailureType(to: DataServiceError.self)
+            .eraseToAnyPublisher()
+    }
+    
+    func provideLogo(_ stock: Symbol) -> AnyPublisher<Image, DataServiceError> {
+        return Just(Image("YNDX"))
             .setFailureType(to: DataServiceError.self)
             .eraseToAnyPublisher()
     }

@@ -18,19 +18,60 @@ struct FinIndexView: View {
     
     var body: some View {
         NavigationView {
-            StockListView(
-                viewModel: .init(
-                    container: viewModel.container,
-                    stockSymbols: viewModel.index?.constituents ?? []
-                )
-            )
+            list
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text(viewModel.index?.name ?? "").h2()
+                ToolbarItem(placement: .principal) { () -> Text in 
+                    var text = ""
+                    switch viewModel.index {
+                    case .loaded(let value):
+                        text = value.name
+                    case .loading:
+                        text = "Loading..."
+                    default:
+                        text = ""
+                    }
+                    return Text(text).h2()
                 }
             }
         }
+    }
+}
+
+private extension FinIndexView {
+    var list: some View {
+        switch viewModel.index {
+        case .idle:
+            viewModel.refresh()
+            return AnyView(loadingList)
+        case .loading:
+            return AnyView(loadingList)
+        case .errorLoading:
+            return AnyView(errorLoadingList)
+        case .loaded(let value):
+            return AnyView(loadedList(value.constituents))
+        }
+    }
+    
+    var loadingList: some View {
+        return ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: Color("Pale Black")))
+            .scaleEffect(2.0, anchor: .center)
+            .padding()
+    }
+    
+    func loadedList(_ list: [Symbol]) -> some View {
+        StockListView(
+            viewModel: .init(
+                container: viewModel.container,
+                stockSymbols: list
+            )
+        )
+    }
+    
+    var errorLoadingList: some View {
+        return Label("Network error", systemImage: "wifi.exclamationmark")
+            .padding()
     }
 }
 
@@ -38,7 +79,7 @@ struct FinIndexView: View {
 
 extension FinIndexView {
     class ViewModel: ObservableObject {
-        @Published private(set) var index: FinIndex?
+        @Published private(set) var index: Loadable<FinIndex>
         
         let container: DIContainer
         private let indexSymbol: Symbol
@@ -47,7 +88,7 @@ extension FinIndexView {
         init(container: DIContainer, indexSymbol: Symbol) {
             self.container = container
             self.indexSymbol = indexSymbol
-            self.index = nil
+            self.index = .idle
         }
         
         func refresh() -> Void {
@@ -59,15 +100,14 @@ extension FinIndexView {
                     guard let self = self else { return }
                     switch value {
                     case .failure(let error):
-                        self.index = nil
+                        self.index = .errorLoading
                         print(error)
                     case .finished:
                         break
                     }
                 } receiveValue: { [weak self] index in
                     guard let self = self else { return }
-                    guard self.index != index else { return }
-                    self.index = index
+                    self.index = .loaded(index)
                 }
                 .store(in: &self.disposables)
         }
@@ -79,7 +119,7 @@ extension FinIndexView {
 fileprivate extension FinIndexView.ViewModel {
     convenience init() {
         self.init(container: DIContainer.stub, indexSymbol: "")
-        self.index = StubData.indices[0]
+        self.index = .loaded(StubData.indices[0])
     }
 }
 

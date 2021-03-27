@@ -79,7 +79,11 @@ class StockDataService: StocksDataServiceProtocol {
     }
     
     func provideLogo(_ stock: Symbol) -> AnyPublisher<Image, DataServiceError> {
-        return StubStockDataService().provideLogo("YNDX")
+        return iexCloudFetcher.fetchImage(stock)
+            .mapError { (error) -> DataServiceError in
+                DataServiceError.fetcher(description: "")
+            }
+            .eraseToAnyPublisher()
     }
 }
 

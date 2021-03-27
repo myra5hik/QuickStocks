@@ -25,6 +25,8 @@ struct StockListRowView: View {
             
             HStack(alignment: .center, spacing: 0.0) {
                 logoImage
+                    .frame(width: 52.0, height: 52.0, alignment: .center)
+                    .padding(.leading, 8.0)
                 nameGroup
                 Spacer()
                 priceGroup
@@ -38,11 +40,21 @@ struct StockListRowView: View {
 
 private extension StockListRowView {
     var logoImage: some View {
-        Image("AAPL")
-            .resizable()
-            .frame(width: 52.0, height: 52.0, alignment: .center)
-            .cornerRadius(10.0)
-            .padding(.leading, 8.0)
+        switch viewModel.logo {
+        case .loaded(let image):
+            return AnyView(image
+                .resizable()
+                .cornerRadius(10.0))
+        case .loading:
+            return AnyView(ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: Color("Pale Black")))
+                .padding())
+        case .errorLoading:
+            return AnyView(Image(systemName: "wifi.slash"))
+        case .idle:
+            viewModel.requestLogo()
+            return AnyView(Rectangle().foregroundColor(Color("Pale Gray")))
+        }
     }
     
     var nameGroup: some View {
@@ -106,6 +118,7 @@ extension StockListRowView {
         @Published var stock: Stock
         @Published var isOdd: Bool
         @Published var isFav: Bool
+        @Published var logo: Loadable<Image>
         
         let container: DIContainer
         
@@ -116,6 +129,7 @@ extension StockListRowView {
             self.stock = stock
             self.isOdd = isOdd
             self.isFav = false
+            self.logo = .idle
             
             subscribeToFavs()
         }
@@ -130,6 +144,28 @@ private extension StockListRowView.ViewModel {
             .sink { [weak self] (set) in
                 guard let symbol = self?.stock.symbol else { return }
                 self?.isFav = set.contains(symbol)
+            }
+            .store(in: &bag)
+    }
+    
+    func requestLogo() -> Void {
+        container.services.data.provideLogo(stock.symbol)
+            .subscribe(on: DispatchQueue.global())
+            .handleEvents(receiveSubscription: { [weak self] (_) in
+                DispatchQueue.main.async {
+                    self?.logo = .loading
+                }
+            })
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (completion) in
+                switch completion {
+                case .failure(_):
+                    self?.logo = .errorLoading
+                case .finished:
+                    break
+                }
+            } receiveValue: { [weak self] (image) in
+                self?.logo = .loaded(image)
             }
             .store(in: &bag)
     }

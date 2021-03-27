@@ -9,7 +9,7 @@ import Foundation
 
 struct StubData {
     static let indices = [
-        Index(symbol: "Index1", constituents: ["AAPL", "YNDX", "TSLA"])
+        FinIndex(symbol: "Index1", constituents: ["AAPL", "YNDX", "TSLA"])
     ]
     
     static let stocks = [

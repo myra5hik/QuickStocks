@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol StocksDataServiceProtocol {
-    func provideIndex(_ symbol: Symbol) -> AnyPublisher<Index, DataServiceError>
+    func provideIndex(_ symbol: Symbol) -> AnyPublisher<FinIndex, DataServiceError>
     func provideStock(_ symbol: Symbol) -> AnyPublisher<Stock, DataServiceError>
     func searchStock(_ query: String) -> AnyPublisher<[Symbol], DataServiceError>
 }
@@ -34,7 +34,7 @@ class StockDataService: StocksDataServiceProtocol {
         self.cacheManager = cacheManager
     }
     
-    func provideIndex(_ symbol: Symbol) -> AnyPublisher<Index, DataServiceError> {
+    func provideIndex(_ symbol: Symbol) -> AnyPublisher<FinIndex, DataServiceError> {
         return finnhubFetcher.fetchIndex(symbol)
             .mapError { (error) -> DataServiceError in
                 DataServiceError.fetcher(description: error.localizedDescription)
@@ -80,7 +80,7 @@ class StockDataService: StocksDataServiceProtocol {
 // MARK: - Stub implementation
 
 class StubStockDataService: StocksDataServiceProtocol {
-    func provideIndex(_ symbol: Symbol) -> AnyPublisher<Index, DataServiceError> {
+    func provideIndex(_ symbol: Symbol) -> AnyPublisher<FinIndex, DataServiceError> {
         return Just(StubData.indices[0])
             .setFailureType(to: DataServiceError.self)
             .eraseToAnyPublisher()

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol FinnHubProtocol {
-    func fetchIndex(_ symbol: Symbol) -> AnyPublisher<Index, FetcherError>
+    func fetchIndex(_ symbol: Symbol) -> AnyPublisher<FinIndex, FetcherError>
     func searchSymbol(_ query: String) -> AnyPublisher<[Symbol], FetcherError>
 }
 
@@ -18,7 +18,7 @@ class FinnHubFetcher {
 }
 
 extension FinnHubFetcher: FinnHubProtocol {
-    func fetchIndex(_ symbol: Symbol) -> AnyPublisher<Index, FetcherError> {
+    func fetchIndex(_ symbol: Symbol) -> AnyPublisher<FinIndex, FetcherError> {
         guard let url = indexComponents(for: symbol).url else {
             return Fail(
                 error: FetcherError.networking(description: "FinnhubFetcher couldn't create URL for \(symbol)")
@@ -30,7 +30,7 @@ extension FinnHubFetcher: FinnHubProtocol {
                 FetcherError.networking(description: error.localizedDescription)
             }
             .map { $0.data }
-            .decode(type: Index.self, decoder: JSONDecoder())
+            .decode(type: FinIndex.self, decoder: JSONDecoder())
             .mapError { (error) -> FetcherError in
                 FetcherError.parsing(description: error.localizedDescription)
             }

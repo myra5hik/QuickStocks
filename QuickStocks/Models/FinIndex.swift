@@ -1,5 +1,5 @@
 //
-//  Index.swift
+//  FinIndex.swift
 //  QuickStocks
 //
 //  Created by Alexander Tokarev on 19.03.2021.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Index: Decodable {
+struct FinIndex: Decodable {
     let symbol: Symbol
     let constituents: [Symbol]
     
@@ -19,16 +19,16 @@ struct Index: Decodable {
     }
 }
 
-extension Index: Identifiable {
+extension FinIndex: Identifiable {
     var id: Symbol { symbol }
 }
 
-extension Index: Equatable {
-    static func ==(lhs: Index, rhs: Index) -> Bool {
+extension FinIndex: Equatable {
+    static func ==(lhs: FinIndex, rhs: FinIndex) -> Bool {
         return lhs.id == rhs.id
     }
     
-    static func !=(lhs: Index, rhs: Index) -> Bool {
+    static func !=(lhs: FinIndex, rhs: FinIndex) -> Bool {
         return lhs.id != rhs.id
     }
 }

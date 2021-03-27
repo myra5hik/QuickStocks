@@ -1,5 +1,5 @@
 //
-//  IndexView.swift
+//  FinIndexView.swift
 //  QuickStocks
 //
 //  Created by Alexander Tokarev on 19.03.2021.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-struct IndexView: View {
+struct FinIndexView: View {
     @ObservedObject private var viewModel: ViewModel
     
     init(viewModel: ViewModel) {
@@ -36,9 +36,9 @@ struct IndexView: View {
 
 // MARK: - ViewModel
 
-extension IndexView {
+extension FinIndexView {
     class ViewModel: ObservableObject {
-        @Published private(set) var index: Index?
+        @Published private(set) var index: FinIndex?
         
         let container: DIContainer
         private let indexSymbol: Symbol
@@ -76,7 +76,7 @@ extension IndexView {
 
 // MARK: - Preview
 
-fileprivate extension IndexView.ViewModel {
+fileprivate extension FinIndexView.ViewModel {
     convenience init() {
         self.init(container: DIContainer.stub, indexSymbol: "")
         self.index = StubData.indices[0]
@@ -85,6 +85,6 @@ fileprivate extension IndexView.ViewModel {
 
 struct IndexView_Previews: PreviewProvider {
     static var previews: some View {
-        IndexView(viewModel: IndexView.ViewModel.init())
+        FinIndexView(viewModel: FinIndexView.ViewModel.init())
     }
 }

@@ -8,8 +8,8 @@
 import Foundation
 
 enum Loadable<T> {
-    case newborn
+    case idle
     case loading
     case loaded(T)
-    case errorLoading(description: String)
+    case errorLoading
 }

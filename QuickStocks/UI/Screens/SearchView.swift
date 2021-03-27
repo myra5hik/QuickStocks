@@ -17,9 +17,16 @@ struct SearchView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(alignment: .center) {
                 searchBar
                 listView
+                Spacer()
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Search").h2()
+                }
             }
         }
     }
@@ -30,22 +37,58 @@ private extension SearchView {
         SearchBarView(
             input: $viewModel.searched,
             onDismiss: {
-                viewModel.list = []
+                viewModel.list = .idle
             }
         )
         .padding()
     }
     
     var listView: some View {
-        StockListView(
-            viewModel: .init(container: viewModel.container, stockSymbols: viewModel.list)
-        )
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text("Search").h2()
-            }
+        switch viewModel.list {
+        case .idle:
+            return AnyView(suggestion)
+        case .loading:
+            return AnyView(loadingList)
+        case .loaded(let list):
+            return AnyView(loadedList(list))
+        case .errorLoading:
+            return AnyView(errorLoadingList)
         }
+    }
+    
+    func loadedList(_ list: [Symbol]) -> some View {
+        if list.isEmpty {
+            return AnyView(emptyList)
+        } else {
+            return AnyView(
+                StockListView(
+                    viewModel: .init(
+                        container: viewModel.container,
+                        stockSymbols: list
+                    )
+                )
+            )
+        }
+    }
+    
+    var loadingList: some View {
+        return ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: Color("Pale Black")))
+            .scaleEffect(2.0, anchor: .center)
+            .padding()
+    }
+    
+    var emptyList: some View {
+        return Text("Couldn't find anything for \(viewModel.searched)").h3()
+    }
+    
+    var errorLoadingList: some View {
+        return Label("Network error", systemImage: "wifi.exclamationmark")
+            .padding()
+    }
+    
+    var suggestion: some View {
+        return Text("Input search query").h3()
     }
 }
 
@@ -54,14 +97,14 @@ private extension SearchView {
 extension SearchView {
     class ViewModel: ObservableObject {
         @Published var searched: String = ""
-        @Published var list: [Symbol] = []
+        @Published var list: Loadable<[Symbol]> = .idle
         
         let container: DIContainer
-        private var bag: Set<AnyCancellable>
+        private var disposables: Set<AnyCancellable>
         
         init(container: DIContainer) {
             self.container = container
-            self.bag = .init()
+            self.disposables = .init()
             subscribeToData()
         }
     }
@@ -71,15 +114,17 @@ private extension SearchView.ViewModel {
     func subscribeToData() -> Void {
         $searched
             .subscribe(on: DispatchQueue.global())
+            .dropFirst()
+            .handleEvents(receiveOutput: { [weak self] (userInput) in
+                DispatchQueue.main.async {
+                    self?.list = (userInput == "") ? .idle : .loading
+                }
+            })
             .debounce(for: 0.5, scheduler: DispatchQueue.global())
-            .map { [weak self] (query) -> AnyPublisher<[Symbol], DataServiceError>? in
+            .compactMap{ [weak self] (query) -> AnyPublisher<[Symbol], DataServiceError>? in
                 self?.container.services.data.searchStock(query)
             }
-            .replaceNil(
-                with: Just([]).setFailureType(to: DataServiceError.self).eraseToAnyPublisher()
-            )
             .switchToLatest()
-            .print()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (completion) in
                 switch completion {
@@ -87,19 +132,31 @@ private extension SearchView.ViewModel {
                     break
                 case .failure(let error):
                     print("SearchView encountered error loading query: \(error)")
-                    self?.list = []
+                    self?.list = .errorLoading
                 }
             } receiveValue: { [weak self] (value) in
-                self?.list = value
+                self?.list = (self?.searched == "") ? .idle : .loaded(value)
             }
-            .store(in: &bag)
+            .store(in: &disposables)
     }
 }
 
 // MARK: - Preview
 
+fileprivate extension SearchView {
+    init(list: Loadable<[Symbol]>) {
+        self.viewModel = .init(container: DIContainer.stub)
+        self.viewModel.list = list
+    }
+}
+
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(viewModel: .init(container: DIContainer.stub))
+        Group {
+            SearchView(list: .loaded([]))
+            SearchView(list: .idle)
+            SearchView(list: .loading)
+            SearchView(list: .errorLoading)
+        }
     }
 }

@@ -154,6 +154,7 @@ private extension StockListRowView.ViewModel {
     func requestLogo() -> Void {
         container.services.data.provideLogo(stock.symbol)
             .subscribe(on: DispatchQueue.global())
+            .retry(3)
             .handleEvents(receiveSubscription: { [weak self] (_) in
                 DispatchQueue.main.async {
                     self?.logo = .loading

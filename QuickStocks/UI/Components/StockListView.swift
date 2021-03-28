@@ -51,9 +51,9 @@ extension StockListView {
         
         func requestData() -> Void {
             for symbol in symbols {
-                self.container.services.data
-                    .provideStock(symbol)
+                self.container.services.data.provideStock(symbol)
                     .subscribe(on: DispatchQueue.global())
+                    .retry(3)
                     .receive(on: DispatchQueue.main)
                     .sink { (value) in }
                         receiveValue: { [weak self] (stock) in

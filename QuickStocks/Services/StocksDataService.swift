@@ -78,6 +78,13 @@ class StockDataService: StocksDataServiceProtocol {
     }
     
     func provideLogo(_ stock: Symbol) -> AnyPublisher<UIImage, DataServiceError> {
+        // If logo is stored in the app's bundle, returns the stored one.
+        // Overriding manually, mainly because the chosen API returns a strange
+        // image for "YNDX". :)
+        if let uiImage = UIImage(named: stock) {
+            return Just(uiImage).setFailureType(to: DataServiceError.self).eraseToAnyPublisher()
+        }
+        
         let fetchTask = iexCloudFetcher.fetchImage(stock)
             .mapError { (error) -> DataServiceError in
                 DataServiceError.fetcher(description: "")

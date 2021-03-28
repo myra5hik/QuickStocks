@@ -167,7 +167,8 @@ private extension StockListRowView.ViewModel {
                 case .finished:
                     break
                 }
-            } receiveValue: { [weak self] (image) in
+            } receiveValue: { [weak self] (uiImage) in
+                let image = Image(uiImage: uiImage)
                 self?.logo = .loaded(image)
             }
             .store(in: &bag)

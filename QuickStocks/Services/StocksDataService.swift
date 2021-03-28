@@ -13,7 +13,7 @@ protocol StocksDataServiceProtocol {
     func provideIndex(_ symbol: Symbol) -> AnyPublisher<FinIndex, DataServiceError>
     func provideStock(_ symbol: Symbol) -> AnyPublisher<Stock, DataServiceError>
     func searchStock(_ query: String) -> AnyPublisher<[Symbol], DataServiceError>
-    func provideLogo(_ stock: Symbol) -> AnyPublisher<Image, DataServiceError>
+    func provideLogo(_ stock: Symbol) -> AnyPublisher<UIImage, DataServiceError>
 }
 
 enum DataServiceError: Error {
@@ -25,11 +25,11 @@ enum DataServiceError: Error {
 class StockDataService: StocksDataServiceProtocol {
     private let iexCloudFetcher: IexCloudProtocol
     private let finnhubFetcher: FinnHubProtocol
-    private let cacheManager: CacheManagerProtocol
+    private let cacheManager: CacheManagerStockProtocol & CacheManagerImageProtocol
     
     init(
         iexFetcher: IexCloudProtocol, finnhubFetcher: FinnHubProtocol,
-        cacheManager: CacheManagerProtocol
+        cacheManager: CacheManagerStockProtocol & CacheManagerImageProtocol
     ) {
         self.iexCloudFetcher = iexFetcher
         self.finnhubFetcher = finnhubFetcher
@@ -49,10 +49,9 @@ class StockDataService: StocksDataServiceProtocol {
             .mapError {
                 DataServiceError.fetcher(description: $0.localizedDescription)
             }
-            .map { [weak self] (stock) -> Stock in
+            .handleEvents(receiveOutput: { [weak self] (stock) in
                 self?.cacheManager.store(stock: stock)
-                return stock
-            }
+            })
             .eraseToAnyPublisher()
         
         let cacheTask = cacheManager.get(stock: symbol)
@@ -78,12 +77,23 @@ class StockDataService: StocksDataServiceProtocol {
             .eraseToAnyPublisher()
     }
     
-    func provideLogo(_ stock: Symbol) -> AnyPublisher<Image, DataServiceError> {
-        return iexCloudFetcher.fetchImage(stock)
+    func provideLogo(_ stock: Symbol) -> AnyPublisher<UIImage, DataServiceError> {
+        let fetchTask = iexCloudFetcher.fetchImage(stock)
             .mapError { (error) -> DataServiceError in
                 DataServiceError.fetcher(description: "")
             }
+            .handleEvents(receiveOutput: { [weak self] (uiImage) in
+                self?.cacheManager.store(symbol: stock, image: uiImage)
+            })
             .eraseToAnyPublisher()
+        
+        let cacheTask = cacheManager.get(logoFor: stock)
+            .catch { (_) -> AnyPublisher<UIImage, DataServiceError> in
+                fetchTask
+            }
+            .eraseToAnyPublisher()
+        
+        return cacheTask
     }
 }
 
@@ -108,8 +118,8 @@ class StubStockDataService: StocksDataServiceProtocol {
             .eraseToAnyPublisher()
     }
     
-    func provideLogo(_ stock: Symbol) -> AnyPublisher<Image, DataServiceError> {
-        return Just(Image("YNDX"))
+    func provideLogo(_ stock: Symbol) -> AnyPublisher<UIImage, DataServiceError> {
+        return Just(UIImage(named: "YNDX")!)
             .setFailureType(to: DataServiceError.self)
             .eraseToAnyPublisher()
     }

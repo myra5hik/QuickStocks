@@ -11,7 +11,7 @@ import SwiftUI
 
 protocol IexCloudProtocol {
     func fetchStock(_ symbol: Symbol) -> AnyPublisher<Stock, FetcherError>
-    func fetchImage(_ symbol: Symbol) -> AnyPublisher<Image, FetcherError>
+    func fetchImage(_ symbol: Symbol) -> AnyPublisher<UIImage, FetcherError>
 }
 
 class IexCloudFetcher {
@@ -39,7 +39,7 @@ extension IexCloudFetcher: IexCloudProtocol {
             .eraseToAnyPublisher()
     }
     
-    func fetchImage(_ symbol: Symbol) -> AnyPublisher<Image, FetcherError> {
+    func fetchImage(_ symbol: Symbol) -> AnyPublisher<UIImage, FetcherError> {
         return fetchLogoUrl(for: symbol)
             .flatMap { url in
                 self.session.dataTaskPublisher(for: url)
@@ -54,9 +54,6 @@ extension IexCloudFetcher: IexCloudProtocol {
             }
             .mapError { (_) in
                 FetcherError.parsing(description: "Couldn't create image from Data")
-            }
-            .map { (uiImage) -> Image in
-                Image(uiImage: uiImage)
             }
             .eraseToAnyPublisher()
     }

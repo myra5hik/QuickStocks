@@ -15,7 +15,7 @@ protocol IexCloudProtocol {
 }
 
 class IexCloudFetcher {
-    private let session = URLSession.shared
+    private let session = URLSession(configuration: configureSession())
 }
 
 extension IexCloudFetcher: IexCloudProtocol {
@@ -91,6 +91,17 @@ extension IexCloudFetcher {
                 FetcherError.parsing(description: "IexCloudFetcher couldn't parse logo URL out of response")
             }
             .eraseToAnyPublisher()
+    }
+}
+
+// MARK: - Config
+
+private extension IexCloudFetcher {
+    static func configureSession() -> URLSessionConfiguration {
+        let config = URLSessionConfiguration.default
+        config.waitsForConnectivity = true
+        config.httpMaximumConnectionsPerHost = 2
+        return config
     }
 }
 

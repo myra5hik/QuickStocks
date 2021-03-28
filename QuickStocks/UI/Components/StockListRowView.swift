@@ -63,10 +63,10 @@ private extension StockListRowView {
     var nameGroup: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center, spacing: 4) {
-                Text(viewModel.stock.symbol).h2()
+                Text(viewModel.stock.symbol).h2().lineLimit(1)
                 starButton
             }
-            Text(viewModel.stock.name).subheader()
+            Text(viewModel.stock.name).subheader().lineLimit(1)
         }
         .padding(.leading, 12.0)
     }

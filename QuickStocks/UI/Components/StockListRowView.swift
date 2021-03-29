@@ -83,34 +83,14 @@ private extension StockListRowView {
     
     var priceGroup: some View {
         VStack(alignment: .center) {
-            Text(priceAsText()).h2()
-            Text(changeAsText())
-                .indicatingDynamics(rate: viewModel.stock.changePercent)
+            Text(UITextFormatter.priceAsText(viewModel.stock.current)).h2()
+            Text(UITextFormatter.changeAsText(
+                    abs: viewModel.stock.changeAbsolute,
+                    relative: viewModel.stock.changePercent)
+            )
+            .indicatingDynamics(rate: viewModel.stock.changePercent)
         }
         .padding(.trailing, 12.0)
-    }
-}
-
-// MARK: - View Helpers
-
-private extension StockListRowView {
-    func priceAsText() -> String {
-        let value = viewModel.stock.current
-        return (value != nil) ? "$" + String(format: "%.2f", value!) : "-"
-    }
-    
-    func changeAsText() -> String {
-        let abs = viewModel.stock.changeAbsolute
-        let relative = viewModel.stock.changePercent
-        guard !(abs == nil || relative == nil) else { return "-" }
-        let sign = (abs! >= 0.0) ? "+" : "-"
-        let unsignedAbs = (abs! >= 0.0) ? abs! : -abs!
-        let unsignedRelative = (relative! >= 0.0) ? relative! : -relative!
-        let rv = String(
-            sign + "$" + String(format: "%.2f", unsignedAbs) + " " +
-            "(" + String(format: "%.2f", unsignedRelative * 100) + "%)"
-        )
-        return rv
     }
 }
 

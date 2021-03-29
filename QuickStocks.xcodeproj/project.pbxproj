@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B649E245260F34FA0059AE12 /* Loadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B649E244260F34FA0059AE12 /* Loadable.swift */; };
+		B6A8078F2611D54700C11C12 /* UITextFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A8078E2611D54700C11C12 /* UITextFormatter.swift */; };
 		B6CFF105260292930093BA67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF104260292930093BA67 /* AppDelegate.swift */; };
 		B6CFF107260292930093BA67 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF106260292930093BA67 /* SceneDelegate.swift */; };
 		B6CFF109260292930093BA67 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFF108260292930093BA67 /* ContentView.swift */; };
@@ -58,6 +59,7 @@
 
 /* Begin PBXFileReference section */
 		B649E244260F34FA0059AE12 /* Loadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
+		B6A8078E2611D54700C11C12 /* UITextFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFormatter.swift; sourceTree = "<group>"; };
 		B6CFF101260292930093BA67 /* QuickStocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickStocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6CFF104260292930093BA67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6CFF106260292930093BA67 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				B6CFF171260893CA0093BA67 /* UIStyling.swift */,
+				B6A8078E2611D54700C11C12 /* UITextFormatter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				B6CFF1AA260A56830093BA67 /* SearchBarView.swift in Sources */,
 				B6CFF1202603E65E0093BA67 /* Stock.swift in Sources */,
 				B6CFF1BB260BAEAC0093BA67 /* FinnhubSymbolLookupResponse.swift in Sources */,
+				B6A8078F2611D54700C11C12 /* UITextFormatter.swift in Sources */,
 				B6CFF19D26091E840093BA67 /* AppState.swift in Sources */,
 				B6CFF13D2605174B0093BA67 /* Symbol.swift in Sources */,
 				B6CFF109260292930093BA67 /* ContentView.swift in Sources */,

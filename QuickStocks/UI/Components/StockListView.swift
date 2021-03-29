@@ -49,13 +49,17 @@ extension StockListView {
             for symbol in symbols {
                 self.container.services.data.provideStock(symbol)
                     .subscribe(on: DispatchQueue.global())
-                    .retry(3)
+                    .retry(3).eraseToAnyPublisher()
                     .receive(on: DispatchQueue.main)
-                    .sink { (value) in }
-                        receiveValue: { [weak self] (stock) in
+                    .sink(receiveCompletion: { (completion) in
+                        return
+                    }, receiveValue: { [weak self] (stock) in
                         guard let self = self else { return }
                         self.list.append(stock)
-                    }
+                        DispatchQueue.main.async {
+                            self.list.sort(by: { $0.symbol <= $1.symbol })
+                        }
+                    })
                     .store(in: &disposables)
             }
         }

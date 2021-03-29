@@ -17,7 +17,7 @@ class AppState {
 }
 
 extension AppState {
-    func toggle(symbol: Symbol) -> Void {
+    func toggleFav(symbol: Symbol) -> Void {
         if !favourites.insert(symbol).inserted {
             favourites.remove(symbol)
         }

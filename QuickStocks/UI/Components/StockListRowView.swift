@@ -66,7 +66,7 @@ private extension StockListRowView {
             .offset(x: 0.0, y: -1.0)
             .foregroundColor(viewModel.isFav ? Color("Fav Yellow") : Color(.gray))
             .onTapGesture {
-                viewModel.container.appState.toggle(symbol: viewModel.stock.symbol)
+                viewModel.container.appState.toggleFav(symbol: viewModel.stock.symbol)
             }
     }
     

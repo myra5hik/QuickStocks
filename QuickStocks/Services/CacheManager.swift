@@ -26,6 +26,9 @@ enum CacheManagerError: Error {
     case managerFailed
 }
 
+///
+/// Single-layer cache manager for the StocksDataService.
+///
 class CacheManager {
     let stockStorage = MemoryStorage<Symbol, Stock>(
         config: MemoryConfig(expiry: .seconds(60), countLimit: 10 * 1024)

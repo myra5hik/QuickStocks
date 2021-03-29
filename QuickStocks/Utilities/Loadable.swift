@@ -7,6 +7,9 @@
 
 import Foundation
 
+///
+/// Loadable utility helps keep track and manipulate states of views, which require remote data.
+///
 enum Loadable<T> {
     case idle
     case loading

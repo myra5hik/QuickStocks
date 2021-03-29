@@ -7,6 +7,9 @@
 
 import Foundation
 
+///
+/// Dependency Injector container to be used across View Models.
+///
 struct DIContainer {
     let appState: AppState
     let services: DIContainer.Services

@@ -82,7 +82,7 @@ private extension FavouritesView.ViewModel {
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (set) in
-                self?.list = Array(set)
+                self?.list = Array(set).sorted()
             }
             .store(in: &bag)
     }

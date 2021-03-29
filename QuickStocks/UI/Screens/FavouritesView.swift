@@ -17,9 +17,7 @@ struct FavouritesView: View {
     
     var body: some View {
         NavigationView {
-            StockListView(
-                viewModel: .init(container: viewModel.container, stockSymbols: viewModel.list)
-            )
+            content
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -27,6 +25,35 @@ struct FavouritesView: View {
                 }
             }
         }
+    }
+}
+
+private extension FavouritesView {
+    var content: some View {
+        if viewModel.list.isEmpty {
+            return AnyView(emptyList)
+        } else {
+            return AnyView(filledList)
+        }
+    }
+    
+    var emptyList: some View {
+        VStack {
+            Image(systemName: "star.slash.fill")
+                .font(.system(size: 115))
+                .foregroundColor(Color("Pale Gray"))
+                .padding()
+            Text("Your Favourites\nare empty")
+                .withAppFont(size: 20)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.gray)
+        }
+    }
+    
+    var filledList: some View {
+        StockListView(
+            viewModel: .init(container: viewModel.container, stockSymbols: viewModel.list)
+        )
     }
 }
 

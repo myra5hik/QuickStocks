@@ -27,7 +27,7 @@ struct MainScreenTabView: View {
             
             FavouritesView(viewModel: .init(container: viewModel.container))
                 .tabItem {
-                    Label("Favourites", systemImage: "list.star")
+                    Label("Favourites", systemImage: "star.fill")
                 }
                 .tag(2)
         }

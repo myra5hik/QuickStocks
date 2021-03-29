@@ -15,7 +15,11 @@ protocol IexCloudProtocol {
 }
 
 class IexCloudFetcher {
-    private let session = URLSession(configuration: configureSession())
+    private let session: URLSession
+    
+    init(session: URLSession = URLSession(configuration: configureSession())) {
+        self.session = session
+    }
 }
 
 extension IexCloudFetcher: IexCloudProtocol {
@@ -98,6 +102,9 @@ private extension IexCloudFetcher {
         let config = URLSessionConfiguration.default
         config.waitsForConnectivity = true
         config.httpMaximumConnectionsPerHost = 2
+        config.httpShouldUsePipelining = true
+        config.timeoutIntervalForRequest = 30
+        config.timeoutIntervalForResource = 10
         return config
     }
 }

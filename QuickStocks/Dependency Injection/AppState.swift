@@ -12,7 +12,7 @@ class AppState {
     @Published var favourites: Set<Symbol>
     
     init() {
-        self.favourites = .init(["AAPL", "YNDX", "PG"])
+        self.favourites = []
     }
 }
 

@@ -22,6 +22,10 @@ enum DataServiceError: Error {
 
 // MARK: - Real implementation
 
+///
+/// StockDataService is designed to be the single point of contatct for all views,
+/// managing caching and network requests without exposing this logic outside.
+///
 class StockDataService: StocksDataServiceProtocol {
     private let iexCloudFetcher: IexCloudProtocol
     private let finnhubFetcher: FinnHubProtocol

@@ -41,23 +41,12 @@ struct StockListRowView: View {
 
 private extension StockListRowView {
     var logoImage: some View {
-        switch viewModel.logo {
-        case .loaded(let image):
-            return AnyView(
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+        LogoImageView(
+            viewModel: .init(
+                container: viewModel.container,
+                symbol: viewModel.stock.symbol
             )
-        case .loading:
-            return AnyView(ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: Color("Pale Black")))
-                .padding())
-        case .errorLoading:
-            return AnyView(Image(systemName: "wifi.slash"))
-        case .idle:
-            viewModel.requestLogo()
-            return AnyView(Rectangle().foregroundColor(Color("Pale Gray")))
-        }
+        )
     }
     
     var nameGroup: some View {
@@ -101,7 +90,6 @@ extension StockListRowView {
         @Published var stock: Stock
         @Published var isOdd: Bool
         @Published var isFav: Bool
-        @Published var logo: Loadable<Image>
         
         let container: DIContainer
         
@@ -112,7 +100,6 @@ extension StockListRowView {
             self.stock = stock
             self.isOdd = isOdd
             self.isFav = false
-            self.logo = .idle
             
             subscribeToFavs()
         }
@@ -130,30 +117,6 @@ private extension StockListRowView.ViewModel {
             }
             .store(in: &bag)
     }
-    
-    func requestLogo() -> Void {
-        container.services.data.provideLogo(stock.symbol)
-            .subscribe(on: DispatchQueue.global())
-            .retry(3)
-            .handleEvents(receiveSubscription: { [weak self] (_) in
-                DispatchQueue.main.async {
-                    self?.logo = .loading
-                }
-            })
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] (completion) in
-                switch completion {
-                case .failure(_):
-                    self?.logo = .errorLoading
-                case .finished:
-                    break
-                }
-            } receiveValue: { [weak self] (uiImage) in
-                let image = Image(uiImage: uiImage)
-                self?.logo = .loaded(image)
-            }
-            .store(in: &bag)
-    }
 }
 
 // MARK: - Previews
@@ -161,10 +124,18 @@ private extension StockListRowView.ViewModel {
 struct StockListRowView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            StockListRowView(model: .init(container: DIContainer.stub,
-                                          stock: StubData.stocks[0], isOdd: true))
-            StockListRowView(model: .init(container: DIContainer.stub,
-                                          stock: StubData.stocks[1], isOdd: false))
+            StockListRowView(
+                model: .init(
+                    container: DIContainer.stub,
+                    stock: StubData.stocks[0], isOdd: true
+                )
+            )
+            StockListRowView(
+                model: .init(
+                    container: DIContainer.stub,
+                    stock: StubData.stocks[1], isOdd: false
+                )
+            )
         }
         .previewLayout(.fixed(width: 328, height: 68))
     }

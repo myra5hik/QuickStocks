@@ -136,15 +136,20 @@ extension StockListRowView {
         var id: Symbol { stockSymbol }
         
         let container: DIContainer
+        private let errorReporter: Optional<(FetcherError) -> ()>
         private var bag = Set<AnyCancellable>()
         
-        init(container: DIContainer, stockSymbol: Symbol, isOdd: Bool) {
+        init(
+            container: DIContainer, stockSymbol: Symbol, isOdd: Bool,
+            reportError: Optional<(FetcherError) -> ()> = nil
+        ) {
             self.container = container
             self.stock = .idle
             self.stockSymbol = stockSymbol
             self.isOdd = isOdd
             self.isFav = false
             self.logoImageViewModel = nil
+            self.errorReporter = reportError
             
             requestData(stockSymbol: stockSymbol)
             subscribeToFavs()
@@ -162,7 +167,8 @@ private extension StockListRowView.ViewModel {
                 switch completion {
                 case .finished:
                     return
-                case .failure(_):
+                case .failure(let error):
+                    self?.errorReporter?(error)
                     self?.stock = .errorLoading
                 }
             }, receiveValue: { [weak self] (value) in

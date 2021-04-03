@@ -9,6 +9,6 @@ import Foundation
 
 enum FetcherError: Error {
     case networking(description: String)
-    case parsing(description: String)
+    case parsing
     case `internal`
 }

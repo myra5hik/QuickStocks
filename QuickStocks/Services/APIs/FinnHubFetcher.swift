@@ -31,9 +31,7 @@ extension FinnHubFetcher: FinnHubProtocol {
             }
             .map { $0.data }
             .decode(type: FinIndex.self, decoder: JSONDecoder())
-            .mapError { (error) -> FetcherError in
-                FetcherError.parsing(description: error.localizedDescription)
-            }
+            .mapError { _ in FetcherError.parsing }
             .eraseToAnyPublisher()
     }
     
@@ -50,10 +48,7 @@ extension FinnHubFetcher: FinnHubProtocol {
             }
             .map { $0.data }
             .decode(type: ResponseFinnhubSymbolLookup.self, decoder: JSONDecoder())
-            .mapError { (error) -> FetcherError in
-                print(error)
-                return FetcherError.parsing(description: error.localizedDescription)
-            }
+            .mapError { _ in return FetcherError.parsing }
             .map { (response) -> [Symbol] in
                 response.result.map { $0.symbol }
             }

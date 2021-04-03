@@ -37,9 +37,7 @@ extension IexCloudFetcher: IexCloudProtocol {
             }
             .map { $0.data }
             .decode(type: Stock.self, decoder: JSONDecoder())
-            .mapError { error in
-                FetcherError.parsing(description: error.localizedDescription)
-            }
+            .mapError { _ in FetcherError.parsing }
             .eraseToAnyPublisher()
     }
     
@@ -56,9 +54,7 @@ extension IexCloudFetcher: IexCloudProtocol {
                 if let rv = UIImage(data: response.data) { return rv }
                 throw FetcherError.internal
             }
-            .mapError { (_) in
-                FetcherError.parsing(description: "Couldn't create image from Data")
-            }
+            .mapError { _ in FetcherError.parsing }
             .eraseToAnyPublisher()
     }
 }
@@ -88,9 +84,7 @@ extension IexCloudFetcher {
                 else { throw FetcherError.internal }
                 return logoUrl
             }
-            .mapError{ (error) -> FetcherError in
-                FetcherError.parsing(description: "IexCloudFetcher couldn't parse logo URL out of response")
-            }
+            .mapError{ _ in FetcherError.parsing }
             .eraseToAnyPublisher()
     }
 }

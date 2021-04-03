@@ -36,6 +36,12 @@ extension IexCloudFetcher: IexCloudProtocol {
                 FetcherError.networking(description: error.localizedDescription)
             }
             .map { $0.data }
+            .flatMap { (data) -> AnyPublisher<Data, FetcherError> in
+                if let message = String(data: data, encoding: .utf8), message == "Unknown symbol" {
+                    return Fail(error: FetcherError.apiCantProvide).eraseToAnyPublisher()
+                }
+                return Just(data).setFailureType(to: FetcherError.self).eraseToAnyPublisher()
+            }
             .decode(type: Stock.self, decoder: JSONDecoder())
             .mapError { _ in FetcherError.parsing }
             .eraseToAnyPublisher()

@@ -156,6 +156,7 @@ private extension StockListRowView.ViewModel {
     func requestData(stockSymbol: Symbol) -> Void {
         container.services.data.provideStock(stockSymbol)
             .subscribe(on: DispatchQueue.global())
+            .retry(3)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {

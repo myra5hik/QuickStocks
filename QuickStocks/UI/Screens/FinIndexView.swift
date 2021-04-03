@@ -94,6 +94,7 @@ extension FinIndexView {
         func refresh() -> Void {
             self.container.services.data
                 .provideIndex(self.indexSymbol)
+                .retry(3)
                 .subscribe(on: DispatchQueue.global())
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in

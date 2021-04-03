@@ -43,7 +43,10 @@ extension IexCloudFetcher: IexCloudProtocol {
                 return Just(data).setFailureType(to: FetcherError.self).eraseToAnyPublisher()
             }
             .decode(type: Stock.self, decoder: JSONDecoder())
-            .mapError { _ in FetcherError.parsing }
+            .mapError{ (error) -> FetcherError in
+                if let fetcherError = error as? FetcherError { return fetcherError }
+                return FetcherError.parsing
+            }
             .eraseToAnyPublisher()
     }
     

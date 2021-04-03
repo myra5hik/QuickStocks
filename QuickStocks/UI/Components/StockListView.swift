@@ -13,14 +13,27 @@ struct StockListView: View {
     
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 0.0) {
-                ForEach(viewModel.rowViewModels) { rowViewModel in
-                    StockListRowView(model: rowViewModel)
-                    .padding(.horizontal, 16.0)
+            LazyVStack {
+                listInset
+                LazyVStack(spacing: 0.0) {
+                    ForEach(viewModel.rowViewModels) { rowViewModel in
+                        StockListRowView(model: rowViewModel)
+                        .padding(.horizontal, 16.0)
+                    }
                 }
+                .animation(.easeInOut(duration: 0.15))
+                listInset
             }
-            .animation(.easeInOut(duration: 0.15))
         }
+    }
+}
+
+private extension StockListView {
+    var listInset: some View {
+        Rectangle()
+            .opacity(0.0)
+            .frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity,
+                   minHeight: 8, idealHeight: 8, maxHeight: 8, alignment: .center)
     }
 }
 

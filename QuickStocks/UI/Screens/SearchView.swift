@@ -64,7 +64,7 @@ private extension SearchView {
                 StockListView(
                     viewModel: .init(
                         container: viewModel.container,
-                        stockSymbols: list
+                        stockSymbols: Just(list).eraseToAnyPublisher()
                     )
                 )
             )

@@ -51,9 +51,14 @@ private extension FavouritesView {
     }
     
     var filledList: some View {
-        StockListView(
-            viewModel: .init(container: viewModel.container, stockSymbols: viewModel.list)
-        )
+        if viewModel.listViewModel == nil {
+            viewModel.listViewModel = .init(
+                container: viewModel.container,
+                stockSymbols: viewModel.$list.eraseToAnyPublisher()
+            )
+        }
+        
+        return StockListView(viewModel: viewModel.listViewModel!)
     }
 }
 
@@ -62,6 +67,7 @@ private extension FavouritesView {
 extension FavouritesView {
     class ViewModel: ObservableObject {
         @Published var list: [Symbol]
+        var listViewModel: StockListView.ViewModel?
         
         let container: DIContainer
         private var bag: Set<AnyCancellable>
@@ -70,6 +76,7 @@ extension FavouritesView {
             self.container = container
             self.list = []
             self.bag = .init()
+            self.listViewModel = nil
             
             subscribeToFavs()
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B63EDD822618EFF9005C637B /* ObfuscatedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EDD812618EFF9005C637B /* ObfuscatedTextView.swift */; };
 		B649E245260F34FA0059AE12 /* Loadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B649E244260F34FA0059AE12 /* Loadable.swift */; };
 		B6A8078F2611D54700C11C12 /* UITextFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A8078E2611D54700C11C12 /* UITextFormatter.swift */; };
 		B6A807922611D71400C11C12 /* LogoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A807912611D71400C11C12 /* LogoImageView.swift */; };
@@ -59,6 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B63EDD812618EFF9005C637B /* ObfuscatedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObfuscatedTextView.swift; sourceTree = "<group>"; };
 		B649E244260F34FA0059AE12 /* Loadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
 		B6A8078E2611D54700C11C12 /* UITextFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFormatter.swift; sourceTree = "<group>"; };
 		B6A807912611D71400C11C12 /* LogoImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoImageView.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				B6CFF159260604250093BA67 /* StockListRowView.swift */,
 				B6CFF1A9260A56830093BA67 /* SearchBarView.swift */,
 				B6A807912611D71400C11C12 /* LogoImageView.swift */,
+				B63EDD812618EFF9005C637B /* ObfuscatedTextView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				B6A807922611D71400C11C12 /* LogoImageView.swift in Sources */,
 				B6CFF1AD260B42DA0093BA67 /* FinnHubFetcher.swift in Sources */,
 				B6CFF1512605352E0093BA67 /* FinIndexView.swift in Sources */,
+				B63EDD822618EFF9005C637B /* ObfuscatedTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

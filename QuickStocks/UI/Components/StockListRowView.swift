@@ -24,7 +24,7 @@ struct StockListRowView: View {
             }
             
             HStack(alignment: .center, spacing: 0.0) {
-                logoImage
+                logo
                     .frame(width: 52.0, height: 52.0, alignment: .center)
                     .cornerRadius(10.0)
                     .padding(.leading, 8.0)
@@ -40,79 +40,142 @@ struct StockListRowView: View {
 }
 
 private extension StockListRowView {
+    var logo: some View {
+        switch viewModel.stock {
+        case .loaded(_): return AnyView(logoImage)
+        default: return AnyView(Rectangle().foregroundColor(.gray).opacity(0.2))
+        }
+    }
+    
     var logoImage: some View {
-        LogoImageView(
-            viewModel: .init(
+        if viewModel.logoImageViewModel == nil {
+            viewModel.logoImageViewModel = .init(
                 container: viewModel.container,
-                symbol: viewModel.stock.symbol
+                symbol: viewModel.stockSymbol
             )
-        )
+        }
+        return LogoImageView(viewModel: viewModel.logoImageViewModel!)
     }
     
     var nameGroup: some View {
-        VStack(alignment: .leading) {
-            HStack(alignment: .center, spacing: 4) {
-                Text(viewModel.stock.symbol).h2().lineLimit(1)
-                starButton
+        return AnyView(
+            VStack(alignment: .leading) {
+                HStack(alignment: .center, spacing: 4) {
+                    tickerText
+                    starButton
+                }
+                companyNameText
             }
-            Text(viewModel.stock.name).subheader().lineLimit(1)
+            .padding(.leading, 12.0)
+        )
+    }
+    
+    var tickerText: some View {
+        switch viewModel.stock {
+        case .loaded(let stock):
+            return AnyView(Text(stock.symbol).h2().lineLimit(1))
+        default:
+            return AnyView(ObfuscatedTextView(w: CGFloat.random(in: 70...120), h: 16))
         }
-        .padding(.leading, 12.0)
+    }
+    
+    var companyNameText: some View {
+        switch viewModel.stock {
+        case .loaded(let stock):
+            return AnyView(Text(stock.name).subheader().lineLimit(1))
+        default:
+            return AnyView(
+                ObfuscatedTextView(w: CGFloat.random(in: 50...70), h: 10).padding(.top, 1)
+            )
+        }
     }
     
     var starButton: some View {
-        Image(systemName: "star.fill")
-            .font(Font.system(size: 16, weight: .black, design: .default))
-            .offset(x: 0.0, y: -1.0)
-            .foregroundColor(viewModel.isFav ? Color("Fav Yellow") : Color(.gray))
-            .onTapGesture {
-                viewModel.container.appState.toggleFav(symbol: viewModel.stock.symbol)
-            }
+        if case let .loaded(stock) = viewModel.stock {
+            return AnyView(
+                Image(systemName: "star.fill")
+                    .font(Font.system(size: 16, weight: .black, design: .default))
+                    .offset(x: 0.0, y: -1.0)
+                    .foregroundColor(viewModel.isFav ? Color("Fav Yellow") : Color(.gray))
+                    .onTapGesture {
+                        viewModel.container.appState.toggleFav(symbol: stock.symbol)
+                    }
+            )
+        }
+        return AnyView(Text(""))
     }
     
     var priceGroup: some View {
-        VStack(alignment: .center) {
-            Text(UITextFormatter.priceAsText(viewModel.stock.current)).h2()
-            Text(UITextFormatter.changeAsText(
-                    abs: viewModel.stock.changeAbsolute,
-                    relative: viewModel.stock.changePercent)
+        if case let .loaded(stock) = viewModel.stock {
+            return AnyView(
+                VStack(alignment: .center) {
+                    Text(UITextFormatter.priceAsText(stock.current)).h2()
+                    Text(UITextFormatter.changeAsText(
+                            abs: stock.changeAbsolute,
+                            relative: stock.changePercent)
+                    )
+                    .indicatingDynamics(rate: stock.changePercent)
+                }
+                .padding(.trailing, 12.0)
             )
-            .indicatingDynamics(rate: viewModel.stock.changePercent)
         }
-        .padding(.trailing, 12.0)
+        return AnyView(Text(""))
     }
 }
 
 // MARK: - ViewModel
 
 extension StockListRowView {
-    class ViewModel: ObservableObject {
-        @Published var stock: Stock
+    class ViewModel: ObservableObject, Identifiable {
+        @Published private(set) var stock: Loadable<Stock>
+        @Published private(set) var isFav: Bool
         @Published var isOdd: Bool
-        @Published var isFav: Bool
+        var logoImageViewModel: LogoImageView.ViewModel?
+        
+        let stockSymbol: Symbol
+        var id: Symbol { stockSymbol }
         
         let container: DIContainer
-        
         private var bag = Set<AnyCancellable>()
         
-        init(container: DIContainer, stock: Stock, isOdd: Bool) {
+        init(container: DIContainer, stockSymbol: Symbol, isOdd: Bool) {
             self.container = container
-            self.stock = stock
+            self.stock = .idle
+            self.stockSymbol = stockSymbol
             self.isOdd = isOdd
             self.isFav = false
+            self.logoImageViewModel = nil
             
+            requestData(stockSymbol: stockSymbol)
             subscribeToFavs()
         }
     }
 }
 
 private extension StockListRowView.ViewModel {
+    func requestData(stockSymbol: Symbol) -> Void {
+        container.services.data.provideStock(stockSymbol)
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] (completion) in
+                switch completion {
+                case .finished:
+                    return
+                case .failure(_):
+                    self?.stock = .errorLoading
+                }
+            }, receiveValue: { [weak self] (value) in
+                self?.stock = .loaded(value)
+            })
+            .store(in: &bag)
+    }
+    
     func subscribeToFavs() -> Void {
         container.appState.$favourites
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (set) in
-                guard let symbol = self?.stock.symbol else { return }
+                guard let symbol = self?.stockSymbol else { return }
                 self?.isFav = set.contains(symbol)
             }
             .store(in: &bag)
@@ -121,21 +184,19 @@ private extension StockListRowView.ViewModel {
 
 // MARK: - Previews
 
+fileprivate extension StockListRowView.ViewModel {
+    convenience init(stock: Loadable<Stock>, isOdd: Bool) {
+        self.init(container: DIContainer.stub, stockSymbol: "", isOdd: isOdd)
+        self.stock = stock
+    }
+}
+
 struct StockListRowView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            StockListRowView(
-                model: .init(
-                    container: DIContainer.stub,
-                    stock: StubData.stocks[0], isOdd: true
-                )
-            )
-            StockListRowView(
-                model: .init(
-                    container: DIContainer.stub,
-                    stock: StubData.stocks[1], isOdd: false
-                )
-            )
+            StockListRowView(model: .init(stock: .loading, isOdd: false))
+            StockListRowView(model: .init(stock: .loaded(StubData.stocks[0]), isOdd: true))
+            StockListRowView(model: .init(stock: .loaded(StubData.stocks[1]), isOdd: false))
         }
         .previewLayout(.fixed(width: 328, height: 68))
     }

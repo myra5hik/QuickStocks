@@ -14,16 +14,12 @@ struct StockListView: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 0.0) {
-                ForEach(Array(viewModel.list.enumerated()), id: \.offset) { index, element in
-                    StockListRowView(
-                        model: .init(
-                            container: viewModel.container,
-                            stock: element, isOdd: index % 2 == 1
-                        )
-                    )
+                ForEach(viewModel.rowViewModels) { rowViewModel in
+                    StockListRowView(model: rowViewModel)
                     .padding(.horizontal, 16.0)
                 }
             }
+            .animation(.easeInOut(duration: 0.15))
         }
     }
 }
@@ -32,40 +28,54 @@ struct StockListView: View {
 
 extension StockListView {
     class ViewModel: ObservableObject {
-        @Published private(set) var list: [Stock]
+        @Published private(set) var rowViewModels: [StockListRowView.ViewModel]
         
         let container: DIContainer
-        private let symbols: [Symbol]
         private var disposables = Set<AnyCancellable>()
         
-        init(container: DIContainer, stockSymbols: [Symbol]) {
+        init(container: DIContainer, stockSymbols: AnyPublisher<[Symbol], Never>) {
             self.container = container
-            self.symbols = stockSymbols
-            self.list = []
+            self.rowViewModels = []
             
-            self.requestData()
+            subscribeToList(publisher: stockSymbols)
         }
     }
 }
 
 private extension StockListView.ViewModel {
-    func requestData() -> Void {
-        for symbol in symbols {
-            self.container.services.data.provideStock(symbol)
-                .subscribe(on: DispatchQueue.global())
-                .retry(3).eraseToAnyPublisher()
-                .receive(on: DispatchQueue.main)
-                .sink(receiveCompletion: { (completion) in
-                    return
-                }, receiveValue: { [weak self] (stock) in
-                    guard let self = self else { return }
-                    self.list.append(stock)
-                    DispatchQueue.main.async {
-                        self.list.sort(by: { $0.symbol <= $1.symbol })
+    func subscribeToList(publisher: AnyPublisher<[Symbol], Never>) -> Void {
+        publisher
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (updatedList) in
+                guard let self = self else { return }
+                guard !updatedList.isEmpty else { self.rowViewModels = []; return }
+                
+                var newList = [StockListRowView.ViewModel]()
+                var counter = 1
+                let loaded = [Symbol: StockListRowView.ViewModel](
+                    // Capturing loaded rows' view models, so they don't refresh
+                    uniqueKeysWithValues: self.rowViewModels.map { ($0.id, $0) }
+                )
+                
+                for stockSymbol in updatedList {
+                    if let loaded = loaded[stockSymbol] {
+                        newList.append(loaded)
+                        newList.last!.isOdd = (counter % 2 == 1)
+                    } else {
+                        newList.append(
+                            StockListRowView.ViewModel(
+                                container: self.container,
+                                stockSymbol: stockSymbol, isOdd: counter % 2 == 1
+                            )
+                        )
                     }
-                })
-                .store(in: &disposables)
-        }
+                    counter += 1
+                }
+                
+                self.rowViewModels = newList
+            }
+            .store(in: &disposables)
     }
 }
 
@@ -73,13 +83,16 @@ private extension StockListView.ViewModel {
 
 fileprivate extension StockListView.ViewModel {
     convenience init() {
-        self.init(container: DIContainer.stub, stockSymbols: [])
-        self.list = StubData.stocks
+        self.init(container: DIContainer.stub, stockSymbols: Just([]).eraseToAnyPublisher())
+        self.rowViewModels = StubData.stocks.map { (stock) -> StockListRowView.ViewModel in
+            .init(container: DIContainer.stub, stockSymbol: stock.symbol, isOdd: false)
+        }
     }
 }
 
 struct StockListView_Previews: PreviewProvider {
     static var previews: some View {
         StockListView(viewModel: StockListView.ViewModel.init())
+            .previewLayout(.fixed(width: 300, height: 500))
     }
 }

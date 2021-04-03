@@ -65,7 +65,6 @@ private extension StockListView.ViewModel {
                 guard !updatedList.isEmpty else { self.rowViewModels = []; return }
                 
                 var newList = [StockListRowView.ViewModel]()
-                var counter = 1
                 let loaded = [Symbol: StockListRowView.ViewModel](
                     // Capturing loaded rows' view models, so they don't refresh
                     uniqueKeysWithValues: self.rowViewModels.map { ($0.id, $0) }
@@ -74,21 +73,47 @@ private extension StockListView.ViewModel {
                 for stockSymbol in updatedList {
                     if let loaded = loaded[stockSymbol] {
                         newList.append(loaded)
-                        newList.last!.isOdd = (counter % 2 == 1)
+                        newList.last!.isOdd = false
                     } else {
                         newList.append(
                             StockListRowView.ViewModel(
                                 container: self.container,
-                                stockSymbol: stockSymbol, isOdd: counter % 2 == 1
+                                stockSymbol: stockSymbol, isOdd: false,
+                                reportError: { (error) in
+                                    self.handleRowLoadingError(error, stock: stockSymbol)
+                                }
                             )
                         )
                     }
-                    counter += 1
                 }
                 
                 self.rowViewModels = newList
+                self.renumerate(asOf: 0)
             }
             .store(in: &disposables)
+    }
+    
+    func renumerate(asOf i: Int) -> Void {
+        var i = i
+        while i < rowViewModels.endIndex {
+            let row = rowViewModels[i]
+            row.isOdd = (i % 2 == 0)
+            i += 1
+        }
+    }
+    
+    func handleRowLoadingError(_ error: FetcherError, stock: Symbol) -> Void {
+        switch error {
+        case .apiCantProvide:
+            let i = rowViewModels.firstIndex(where: { $0.stockSymbol == stock })
+            assert(i != nil)
+            if i != nil {
+                rowViewModels.remove(at: i!)
+                renumerate(asOf: i!)
+            }
+        default:
+            return
+        }
     }
 }
 

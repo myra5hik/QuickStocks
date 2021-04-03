@@ -120,7 +120,7 @@ private extension SearchView.ViewModel {
                 }
             })
             .debounce(for: 0.5, scheduler: DispatchQueue.global())
-            .compactMap{ [weak self] (query) -> AnyPublisher<[Symbol], DataServiceError>? in
+            .compactMap{ [weak self] (query) -> AnyPublisher<[Symbol], FetcherError>? in
                 self?.container.services.data.searchStock(query)
             }
             .switchToLatest()

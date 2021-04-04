@@ -18,7 +18,7 @@ struct SearchView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVStack(alignment: .center, spacing: 0) {
+                VStack(alignment: .center, spacing: 0) {
                     searchBar
                     listView
                     Spacer(minLength: 0)

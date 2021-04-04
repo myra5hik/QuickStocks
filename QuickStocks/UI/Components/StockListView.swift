@@ -25,6 +25,7 @@ struct StockListView: View {
                 listInset
             }
         }
+        .animation(.easeInOut(duration: 0.15))
     }
 }
 

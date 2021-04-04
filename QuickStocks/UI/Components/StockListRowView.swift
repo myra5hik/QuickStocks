@@ -16,30 +16,47 @@ struct StockListRowView: View {
     }
     
     var body: some View {
-        ZStack {
-            if viewModel.isOdd {
-                Rectangle()
-                    .foregroundColor(Color("Pale Gray"))
-                    .cornerRadius(18.0)
-            }
-            
-            HStack(alignment: .center, spacing: 0.0) {
-                leftLogoSquare
-                    .frame(width: 52.0, height: 52.0, alignment: .center)
-                    .cornerRadius(10.0)
-                    .padding(.leading, 8.0)
-                nameGroup
-                Spacer()
-                priceGroup
-            }
-            .frame(minWidth: nil, idealWidth: 328.0, maxWidth: .infinity,
-                   minHeight: 68.0, idealHeight: 68.0, maxHeight: 68.0,
-                   alignment: .leading)
+        switch viewModel.stock {
+        case .loaded(let stock):
+            NavigationLink(
+                destination: StockDetailsView(
+                    viewModel: .init(
+                        container: viewModel.container, stock: stock
+                    )
+                ),
+                label: { fullRowRender })
+        default:
+            fullRowRender
         }
     }
 }
 
 private extension StockListRowView {
+    var fullRowRender: some View {
+        AnyView(
+            ZStack {
+                if viewModel.isOdd {
+                    Rectangle()
+                        .foregroundColor(Color("Pale Gray"))
+                        .cornerRadius(18.0)
+                }
+                
+                HStack(alignment: .center, spacing: 0.0) {
+                    leftLogoSquare
+                        .frame(width: 52.0, height: 52.0, alignment: .center)
+                        .cornerRadius(10.0)
+                        .padding(.leading, 8.0)
+                    nameGroup
+                    Spacer()
+                    priceGroup
+                }
+                .frame(minWidth: nil, idealWidth: 328.0, maxWidth: .infinity,
+                       minHeight: 68.0, idealHeight: 68.0, maxHeight: 68.0,
+                       alignment: .leading)
+            }
+        )
+    }
+    
     var leftLogoSquare: some View {
         switch viewModel.stock {
         case .loaded(_):

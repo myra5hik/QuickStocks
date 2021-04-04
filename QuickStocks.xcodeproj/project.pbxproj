@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		B63EDD822618EFF9005C637B /* ObfuscatedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EDD812618EFF9005C637B /* ObfuscatedTextView.swift */; };
+		B63EDD862619DBDB005C637B /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = B63EDD852619DBDB005C637B /* SwiftUICharts */; };
+		B63EDD892619DBFA005C637B /* PriceChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EDD882619DBFA005C637B /* PriceChartView.swift */; };
+		B63EDD922619EAFF005C637B /* UIChartStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EDD912619EAFF005C637B /* UIChartStyling.swift */; };
+		B63EDD952619F778005C637B /* FinnhubCandleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EDD942619F778005C637B /* FinnhubCandleResponse.swift */; };
+		B63EDD982619FF67005C637B /* StockDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EDD972619FF67005C637B /* StockDetailsView.swift */; };
 		B649E245260F34FA0059AE12 /* Loadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B649E244260F34FA0059AE12 /* Loadable.swift */; };
 		B6A8078F2611D54700C11C12 /* UITextFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A8078E2611D54700C11C12 /* UITextFormatter.swift */; };
 		B6A807922611D71400C11C12 /* LogoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A807912611D71400C11C12 /* LogoImageView.swift */; };
@@ -61,6 +66,10 @@
 
 /* Begin PBXFileReference section */
 		B63EDD812618EFF9005C637B /* ObfuscatedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObfuscatedTextView.swift; sourceTree = "<group>"; };
+		B63EDD882619DBFA005C637B /* PriceChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceChartView.swift; sourceTree = "<group>"; };
+		B63EDD912619EAFF005C637B /* UIChartStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChartStyling.swift; sourceTree = "<group>"; };
+		B63EDD942619F778005C637B /* FinnhubCandleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinnhubCandleResponse.swift; sourceTree = "<group>"; };
+		B63EDD972619FF67005C637B /* StockDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailsView.swift; sourceTree = "<group>"; };
 		B649E244260F34FA0059AE12 /* Loadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
 		B6A8078E2611D54700C11C12 /* UITextFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFormatter.swift; sourceTree = "<group>"; };
 		B6A807912611D71400C11C12 /* LogoImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoImageView.swift; sourceTree = "<group>"; };
@@ -119,6 +128,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6CFF1C2260DE5350093BA67 /* Cache in Frameworks */,
+				B63EDD862619DBDB005C637B /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +250,7 @@
 				B6CFF1502605352E0093BA67 /* FinIndexView.swift */,
 				B6CFF19F2609F3D20093BA67 /* FavouritesView.swift */,
 				B6CFF1A2260A46850093BA67 /* SearchView.swift */,
+				B63EDD972619FF67005C637B /* StockDetailsView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -251,6 +262,7 @@
 				B6CFF159260604250093BA67 /* StockListRowView.swift */,
 				B6CFF1A9260A56830093BA67 /* SearchBarView.swift */,
 				B6A807912611D71400C11C12 /* LogoImageView.swift */,
+				B63EDD882619DBFA005C637B /* PriceChartView.swift */,
 				B63EDD812618EFF9005C637B /* ObfuscatedTextView.swift */,
 			);
 			path = Components;
@@ -272,6 +284,7 @@
 			children = (
 				B6CFF171260893CA0093BA67 /* UIStyling.swift */,
 				B6A8078E2611D54700C11C12 /* UITextFormatter.swift */,
+				B63EDD912619EAFF005C637B /* UIChartStyling.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -314,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				B6CFF1BA260BAEAB0093BA67 /* FinnhubSymbolLookupResponse.swift */,
+				B63EDD942619F778005C637B /* FinnhubCandleResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -336,6 +350,7 @@
 			name = QuickStocks;
 			packageProductDependencies = (
 				B6CFF1C1260DE5350093BA67 /* Cache */,
+				B63EDD852619DBDB005C637B /* SwiftUICharts */,
 			);
 			productName = QuickStocks;
 			productReference = B6CFF101260292930093BA67 /* QuickStocks.app */;
@@ -366,6 +381,7 @@
 			mainGroup = B6CFF0F8260292930093BA67;
 			packageReferences = (
 				B6CFF1C0260DE5350093BA67 /* XCRemoteSwiftPackageReference "Cache" */,
+				B63EDD842619DBDB005C637B /* XCRemoteSwiftPackageReference "ChartView" */,
 			);
 			productRefGroup = B6CFF102260292930093BA67 /* Products */;
 			projectDirPath = "";
@@ -413,6 +429,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6CFF15A260604250093BA67 /* StockListRowView.swift in Sources */,
+				B63EDD952619F778005C637B /* FinnhubCandleResponse.swift in Sources */,
 				B6CFF105260292930093BA67 /* AppDelegate.swift in Sources */,
 				B6CFF1A02609F3D20093BA67 /* FavouritesView.swift in Sources */,
 				B6CFF107260292930093BA67 /* SceneDelegate.swift in Sources */,
@@ -429,9 +446,11 @@
 				B6CFF1A3260A46850093BA67 /* SearchView.swift in Sources */,
 				B6CFF14626052EB20093BA67 /* DIContainer.swift in Sources */,
 				B6CFF1AA260A56830093BA67 /* SearchBarView.swift in Sources */,
+				B63EDD922619EAFF005C637B /* UIChartStyling.swift in Sources */,
 				B6CFF1202603E65E0093BA67 /* Stock.swift in Sources */,
 				B6CFF1BB260BAEAC0093BA67 /* FinnhubSymbolLookupResponse.swift in Sources */,
 				B6A8078F2611D54700C11C12 /* UITextFormatter.swift in Sources */,
+				B63EDD982619FF67005C637B /* StockDetailsView.swift in Sources */,
 				B6CFF19D26091E840093BA67 /* AppState.swift in Sources */,
 				B6CFF13D2605174B0093BA67 /* Symbol.swift in Sources */,
 				B6CFF109260292930093BA67 /* ContentView.swift in Sources */,
@@ -439,6 +458,7 @@
 				B6A807922611D71400C11C12 /* LogoImageView.swift in Sources */,
 				B6CFF1AD260B42DA0093BA67 /* FinnHubFetcher.swift in Sources */,
 				B6CFF1512605352E0093BA67 /* FinIndexView.swift in Sources */,
+				B63EDD892619DBFA005C637B /* PriceChartView.swift in Sources */,
 				B63EDD822618EFF9005C637B /* ObfuscatedTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -639,6 +659,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B63EDD842619DBDB005C637B /* XCRemoteSwiftPackageReference "ChartView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppPear/ChartView.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.5.5;
+			};
+		};
 		B6CFF1C0260DE5350093BA67 /* XCRemoteSwiftPackageReference "Cache" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hyperoslo/Cache.git";
@@ -650,6 +678,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B63EDD852619DBDB005C637B /* SwiftUICharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B63EDD842619DBDB005C637B /* XCRemoteSwiftPackageReference "ChartView" */;
+			productName = SwiftUICharts;
+		};
 		B6CFF1C1260DE5350093BA67 /* Cache */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B6CFF1C0260DE5350093BA67 /* XCRemoteSwiftPackageReference "Cache" */;

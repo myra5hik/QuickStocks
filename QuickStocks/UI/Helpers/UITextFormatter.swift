@@ -9,11 +9,11 @@ import Foundation
 
 struct UITextFormatter {
     static func priceAsText(_ price: Double?) -> String {
-        return (price != nil) ? "$" + String(format: "%.2f", price!) : "-"
+        return (price != nil) ? "$" + String(format: "%.2f", price!) : "—"
     }
     
     static func changeAsText(abs: Double?, relative: Double?) -> String {
-        guard !(abs == nil || relative == nil) else { return "-" }
+        guard !(abs == nil || relative == nil) else { return "—" }
         let sign = (abs! >= 0.0) ? "+" : "-"
         let unsignedAbs = (abs! >= 0.0) ? abs! : -abs!
         let unsignedRelative = (relative! >= 0.0) ? relative! : -relative!
@@ -22,5 +22,10 @@ struct UITextFormatter {
             "(" + String(format: "%.2f", unsignedRelative * 100) + "%)"
         )
         return rv
+    }
+    
+    static func peAsText(pe: Double?) -> String {
+        guard pe != nil else { return "—" }
+        return String(format: "%.2f", pe!)
     }
 }

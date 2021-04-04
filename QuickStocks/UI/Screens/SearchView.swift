@@ -17,10 +17,12 @@ struct SearchView: View {
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .center, spacing: 0) {
-                searchBar
-                listView
-                Spacer(minLength: 0)
+            ScrollView {
+                LazyVStack(alignment: .center, spacing: 0) {
+                    searchBar
+                    listView
+                    Spacer(minLength: 0)
+                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -40,7 +42,9 @@ private extension SearchView {
                 viewModel.list = .idle
             }
         )
-        .padding()
+        .padding(.horizontal, 20)
+        .padding(.top, 16)
+        .padding(.bottom, 8)
     }
     
     var listView: some View {
@@ -75,7 +79,7 @@ private extension SearchView {
         return ProgressView()
             .progressViewStyle(CircularProgressViewStyle(tint: Color("Pale Black")))
             .scaleEffect(2.0, anchor: .center)
-            .padding()
+            .padding(.all, 32)
     }
     
     var emptyList: some View {

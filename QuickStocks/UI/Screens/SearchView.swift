@@ -96,7 +96,7 @@ private extension SearchView {
 extension SearchView {
     class ViewModel: ObservableObject {
         @Published var searched: String = ""
-        @Published var list: Loadable<[Symbol]> = .idle
+        @Published var list: Loadable<[Symbol], FetcherError> = .idle
         
         let container: DIContainer
         private var disposables: Set<AnyCancellable>
@@ -131,7 +131,7 @@ private extension SearchView.ViewModel {
                     break
                 case .failure(let error):
                     print("SearchView encountered error loading query: \(error)")
-                    self?.list = .errorLoading
+                    self?.list = .errorLoading(error)
                 }
             } receiveValue: { [weak self] (value) in
                 self?.list = (self?.searched == "") ? .idle : .loaded(value)
@@ -143,7 +143,7 @@ private extension SearchView.ViewModel {
 // MARK: - Preview
 
 fileprivate extension SearchView {
-    init(list: Loadable<[Symbol]>, query: String = "") {
+    init(list: Loadable<[Symbol], FetcherError>, query: String = "") {
         self.viewModel = .init(container: DIContainer.stub)
         self.viewModel.list = list
         self.viewModel.searched = query
@@ -153,10 +153,10 @@ fileprivate extension SearchView {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SearchView(list: .loaded([]), query: "Abcde")
+            SearchView(list: .loaded([]), query: "abcde")
             SearchView(list: .idle)
             SearchView(list: .loading)
-            SearchView(list: .errorLoading)
+            SearchView(list: .errorLoading(.parsing))
         }
     }
 }

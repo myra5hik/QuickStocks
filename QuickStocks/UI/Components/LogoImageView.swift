@@ -40,7 +40,7 @@ struct LogoImageView: View {
 
 extension LogoImageView {
     class ViewModel: ObservableObject {
-        @Published var logo: Loadable<Image>
+        @Published var logo: Loadable<Image, FetcherError>
         
         private let symbol: Symbol
         private let container: DIContainer
@@ -67,8 +67,8 @@ extension LogoImageView.ViewModel {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (completion) in
                 switch completion {
-                case .failure(_):
-                    self?.logo = .errorLoading
+                case .failure(let error):
+                    self?.logo = .errorLoading(error)
                 case .finished:
                     break
                 }
@@ -83,7 +83,7 @@ extension LogoImageView.ViewModel {
 // MARK: - Preview
 
 fileprivate extension LogoImageView {
-    init(logo: Loadable<Image>) {
+    init(logo: Loadable<Image, FetcherError>) {
         self.viewModel = .init(container: DIContainer.stub, symbol: "")
         self.viewModel.logo = logo
     }
@@ -94,7 +94,7 @@ struct LogoImageView_Previews: PreviewProvider {
         Group {
             LogoImageView(logo: .loaded(Image("YNDX")))
             LogoImageView(logo: .loading)
-            LogoImageView(logo: .errorLoading)
+            LogoImageView(logo: .errorLoading(.parsing))
         }
         .previewLayout(.fixed(width: 60, height: 60))
     }

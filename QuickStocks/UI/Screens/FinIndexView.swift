@@ -79,7 +79,7 @@ private extension FinIndexView {
 
 extension FinIndexView {
     class ViewModel: ObservableObject {
-        @Published private(set) var index: Loadable<FinIndex>
+        @Published private(set) var index: Loadable<FinIndex, FetcherError>
         
         let container: DIContainer
         private let indexSymbol: Symbol
@@ -101,8 +101,7 @@ extension FinIndexView {
                     guard let self = self else { return }
                     switch value {
                     case .failure(let error):
-                        self.index = .errorLoading
-                        print(error)
+                        self.index = .errorLoading(error)
                     case .finished:
                         break
                     }

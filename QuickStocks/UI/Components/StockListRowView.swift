@@ -149,7 +149,7 @@ private extension StockListRowView {
 
 extension StockListRowView {
     class ViewModel: ObservableObject, Identifiable {
-        @Published private(set) var stock: Loadable<Stock>
+        @Published private(set) var stock: Loadable<Stock, FetcherError>
         @Published private(set) var isFav: Bool
         @Published var isOdd: Bool
         var logoImageViewModel: LogoImageView.ViewModel?
@@ -191,7 +191,7 @@ private extension StockListRowView.ViewModel {
                     return
                 case .failure(let error):
                     self?.errorReporter?(error)
-                    self?.stock = .errorLoading
+                    self?.stock = .errorLoading(error)
                 }
             }, receiveValue: { [weak self] (value) in
                 self?.stock = .loaded(value)
@@ -214,7 +214,7 @@ private extension StockListRowView.ViewModel {
 // MARK: - Previews
 
 fileprivate extension StockListRowView.ViewModel {
-    convenience init(stock: Loadable<Stock>, isOdd: Bool) {
+    convenience init(stock: Loadable<Stock, FetcherError>, isOdd: Bool) {
         self.init(container: DIContainer.stub, stockSymbol: "STUB", isOdd: isOdd)
         self.stock = stock
     }
@@ -224,7 +224,7 @@ struct StockListRowView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             StockListRowView(model: .init(stock: .loading, isOdd: false))
-            StockListRowView(model: .init(stock: .errorLoading, isOdd: false))
+            StockListRowView(model: .init(stock: .errorLoading(.parsing), isOdd: false))
             StockListRowView(model: .init(stock: .loaded(StubData.stocks[0]), isOdd: true))
             StockListRowView(model: .init(stock: .loaded(StubData.stocks[1]), isOdd: false))
         }

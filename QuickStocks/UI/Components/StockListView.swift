@@ -107,7 +107,6 @@ private extension StockListView.ViewModel {
         switch error {
         case .apiCantProvide:
             let i = rowViewModels.firstIndex(where: { $0.stockSymbol == stock })
-            assert(i != nil)
             if i != nil {
                 rowViewModels.remove(at: i!)
                 renumerate(asOf: i!)

@@ -24,7 +24,7 @@ struct StockListRowView: View {
             }
             
             HStack(alignment: .center, spacing: 0.0) {
-                logo
+                leftLogoSquare
                     .frame(width: 52.0, height: 52.0, alignment: .center)
                     .cornerRadius(10.0)
                     .padding(.leading, 8.0)
@@ -40,11 +40,12 @@ struct StockListRowView: View {
 }
 
 private extension StockListRowView {
-    var logo: some View {
+    var leftLogoSquare: some View {
         switch viewModel.stock {
         case .loaded(_):
             return AnyView(logoImage)
-        case .errorLoading:
+        case .errorLoading(let error):
+            if case .apiCantProvide = error { fallthrough }
             return AnyView(
                 ZStack {
                     Image(systemName: "wifi.slash").foregroundColor(Color("Pale Black"))
@@ -70,41 +71,34 @@ private extension StockListRowView {
         return AnyView(
             VStack(alignment: .leading) {
                 HStack(alignment: .center, spacing: 4) {
-                    tickerText
+                    upperTextLine
                     starButton
                 }
-                companyNameText
+                lowerTextLine
             }
             .padding(.leading, 12.0)
         )
     }
     
-    var tickerText: some View {
+    var upperTextLine: some View {
         switch viewModel.stock {
         case .loaded(let stock):
             return AnyView(Text(stock.symbol).h2().lineLimit(1))
-        case .errorLoading:
+        case .errorLoading (let error):
+            if case .apiCantProvide = error { fallthrough }
             return AnyView(Text(viewModel.stockSymbol).h2().lineLimit(1))
         default:
             return AnyView(ObfuscatedTextView(w: CGFloat.random(in: 70...120), h: 16))
         }
     }
     
-    var companyNameText: some View {
+    var lowerTextLine: some View {
         switch viewModel.stock {
         case .loaded(let stock):
             return AnyView(Text(stock.name).subheader().lineLimit(1))
-        case .errorLoading:
-            return AnyView(
-                Button(action: {
-                    viewModel.requestData()
-                }, label: {
-                    HStack(alignment: .center, spacing: 4) {
-                        Text("Retry").subheader()
-                        Image(systemName: "arrow.counterclockwise").font(.system(size: 10))
-                    }.foregroundColor(.blue)
-                })
-            )
+        case .errorLoading(let error):
+            if case .apiCantProvide = error { fallthrough }
+            return AnyView(retryButton)
         default:
             return AnyView(
                 ObfuscatedTextView(w: CGFloat.random(in: 50...70), h: 10).padding(.top, 1)
@@ -125,6 +119,17 @@ private extension StockListRowView {
             )
         }
         return AnyView(Text(""))
+    }
+    
+    var retryButton: some View {
+        Button(action: {
+            viewModel.requestData()
+        }, label: {
+            HStack(alignment: .center, spacing: 4) {
+                Text("Retry").subheader()
+                Image(systemName: "arrow.counterclockwise").font(.system(size: 10))
+            }.foregroundColor(.blue)
+        })
     }
     
     var priceGroup: some View {

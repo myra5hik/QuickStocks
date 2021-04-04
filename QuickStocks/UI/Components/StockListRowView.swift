@@ -42,8 +42,17 @@ struct StockListRowView: View {
 private extension StockListRowView {
     var logo: some View {
         switch viewModel.stock {
-        case .loaded(_): return AnyView(logoImage)
-        default: return AnyView(Rectangle().foregroundColor(.gray).opacity(0.2))
+        case .loaded(_):
+            return AnyView(logoImage)
+        case .errorLoading:
+            return AnyView(
+                ZStack {
+                    Image(systemName: "wifi.slash").foregroundColor(Color("Pale Black"))
+                    Rectangle().foregroundColor(.gray).opacity(0.2)
+                }
+            )
+        default:
+            return AnyView(Rectangle().foregroundColor(.gray).opacity(0.2))
         }
     }
     
@@ -74,6 +83,8 @@ private extension StockListRowView {
         switch viewModel.stock {
         case .loaded(let stock):
             return AnyView(Text(stock.symbol).h2().lineLimit(1))
+        case .errorLoading:
+            return AnyView(Text(viewModel.stockSymbol).h2().lineLimit(1))
         default:
             return AnyView(ObfuscatedTextView(w: CGFloat.random(in: 70...120), h: 16))
         }
@@ -83,6 +94,17 @@ private extension StockListRowView {
         switch viewModel.stock {
         case .loaded(let stock):
             return AnyView(Text(stock.name).subheader().lineLimit(1))
+        case .errorLoading:
+            return AnyView(
+                Button(action: {
+                    viewModel.requestData()
+                }, label: {
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Retry").subheader()
+                        Image(systemName: "arrow.counterclockwise").font(.system(size: 10))
+                    }.foregroundColor(.blue)
+                })
+            )
         default:
             return AnyView(
                 ObfuscatedTextView(w: CGFloat.random(in: 50...70), h: 10).padding(.top, 1)
@@ -151,14 +173,14 @@ extension StockListRowView {
             self.logoImageViewModel = nil
             self.errorReporter = reportError
             
-            requestData(stockSymbol: stockSymbol)
+            requestData()
             subscribeToFavs()
         }
     }
 }
 
 private extension StockListRowView.ViewModel {
-    func requestData(stockSymbol: Symbol) -> Void {
+    func requestData() -> Void {
         container.services.data.provideStock(stockSymbol)
             .subscribe(on: DispatchQueue.global())
             .retry(3)
@@ -193,7 +215,7 @@ private extension StockListRowView.ViewModel {
 
 fileprivate extension StockListRowView.ViewModel {
     convenience init(stock: Loadable<Stock>, isOdd: Bool) {
-        self.init(container: DIContainer.stub, stockSymbol: "", isOdd: isOdd)
+        self.init(container: DIContainer.stub, stockSymbol: "STUB", isOdd: isOdd)
         self.stock = stock
     }
 }
@@ -202,6 +224,7 @@ struct StockListRowView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             StockListRowView(model: .init(stock: .loading, isOdd: false))
+            StockListRowView(model: .init(stock: .errorLoading, isOdd: false))
             StockListRowView(model: .init(stock: .loaded(StubData.stocks[0]), isOdd: true))
             StockListRowView(model: .init(stock: .loaded(StubData.stocks[1]), isOdd: false))
         }

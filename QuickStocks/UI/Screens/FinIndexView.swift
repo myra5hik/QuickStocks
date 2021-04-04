@@ -49,7 +49,7 @@ private extension FinIndexView {
         case .errorLoading:
             return AnyView(errorLoadingList)
         case .loaded(let value):
-            return AnyView(loadedList(value.constituents))
+            return AnyView(loadedList(value.constituents.sorted()))
         }
     }
     
@@ -70,7 +70,7 @@ private extension FinIndexView {
     }
     
     var errorLoadingList: some View {
-        return Label("Network error", systemImage: "wifi.exclamationmark")
+        return Label("Network error", systemImage: "wifi.slash")
             .padding()
     }
 }

@@ -125,8 +125,8 @@ private extension FinnHubFetcher {
     func candlesComponents(for symbol: Symbol) -> URLComponents {
         var rv = URLComponents()
         
-        // TODO: Customizable time frame instead of hard-coded last 6mo
-        let from = String(String(Date().advanced(by: -86400 * 365).timeIntervalSince1970.rounded(.down)).dropLast(2))
+        // TODO: Customizable time frame instead of hard-coded last 90 days
+        let from = String(String(Date().advanced(by: -86400 * 90).timeIntervalSince1970.rounded(.down)).dropLast(2))
         let to = String(String(Date().timeIntervalSince1970.rounded(.down)).dropLast(2))
         
         rv.scheme = FinnHubFetcher.Components.scheme

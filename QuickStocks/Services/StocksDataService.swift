@@ -14,6 +14,7 @@ protocol StocksDataServiceProtocol {
     func provideStock(_ symbol: Symbol) -> AnyPublisher<Stock, FetcherError>
     func searchStock(_ query: String) -> AnyPublisher<[Symbol], FetcherError>
     func provideLogo(_ stock: Symbol) -> AnyPublisher<UIImage, FetcherError>
+    func provideHistoricPrices(_ stock: Symbol) -> AnyPublisher<[Double], FetcherError>
 }
 
 // MARK: - Real implementation
@@ -90,6 +91,10 @@ class StockDataService: StocksDataServiceProtocol {
         
         return cacheTask
     }
+    
+    func provideHistoricPrices(_ stock: Symbol) -> AnyPublisher<[Double], FetcherError> {
+        return finnhubFetcher.fetchHistoricPrices(stock)
+    }
 }
 
 // MARK: - Stub implementation
@@ -117,5 +122,9 @@ class StubStockDataService: StocksDataServiceProtocol {
         return Just(UIImage(named: "YNDX")!)
             .setFailureType(to: FetcherError.self)
             .eraseToAnyPublisher()
+    }
+    
+    func provideHistoricPrices(_ stock: Symbol) -> AnyPublisher<[Double], FetcherError> {
+        return Just([1,2,3]).setFailureType(to: FetcherError.self).eraseToAnyPublisher()
     }
 }

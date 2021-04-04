@@ -11,6 +11,7 @@ import Combine
 protocol FinnHubProtocol {
     func fetchIndex(_ symbol: Symbol) -> AnyPublisher<FinIndex, FetcherError>
     func searchSymbol(_ query: String) -> AnyPublisher<[Symbol], FetcherError>
+    func fetchHistoricPrices(_ stockSymbol: Symbol) -> AnyPublisher<[Double], FetcherError>
 }
 
 class FinnHubFetcher {
@@ -54,6 +55,28 @@ extension FinnHubFetcher: FinnHubProtocol {
             }
             .eraseToAnyPublisher()
     }
+    
+    func fetchHistoricPrices(_ stockSymbol: Symbol) -> AnyPublisher<[Double], FetcherError> {
+        guard let url = candlesComponents(for: stockSymbol).url else {
+            return Fail(
+                error: FetcherError.networking(
+                    description: "FinnhubFetcher couldn't create URL for \(stockSymbol)'s candles request"
+                )
+            ).eraseToAnyPublisher()
+        }
+        
+        return session.dataTaskPublisher(for: URLRequest(url: url))
+            .mapError { (error) -> FetcherError in
+                FetcherError.networking(description: error.localizedDescription)
+            }
+            .map { $0.data }
+            .decode(type: ResponseFinnhubCandles.self, decoder: JSONDecoder())
+            .mapError { _ in return FetcherError.parsing }
+            .map { (response) -> [Double] in
+                return response.c
+            }
+            .eraseToAnyPublisher()
+    }
 }
 
 // MARK: - finnhub.io REST API
@@ -66,6 +89,9 @@ private extension FinnHubFetcher {
         static let auth = "c1b5bvv48v6rcdq9u6g0"
     }
     
+    //
+    // https://finnhub.io/docs/api/indices-constituents
+    //
     func indexComponents(for symbol: Symbol) -> URLComponents {
         var rv = URLComponents()
         rv.scheme = FinnHubFetcher.Components.scheme
@@ -88,6 +114,29 @@ private extension FinnHubFetcher {
         rv.path = FinnHubFetcher.Components.rootPath + "/search"
         rv.queryItems = [
             URLQueryItem(name: "q", value: query),
+            URLQueryItem(name: "token", value: FinnHubFetcher.Components.auth)
+        ]
+        return rv
+    }
+    
+    //
+    // https://finnhub.io/docs/api/stock-candles
+    //
+    func candlesComponents(for symbol: Symbol) -> URLComponents {
+        var rv = URLComponents()
+        
+        // TODO: Customizable time frame instead of hard-coded last 6mo
+        let from = String(String(Date().advanced(by: -86400 * 365).timeIntervalSince1970.rounded(.down)).dropLast(2))
+        let to = String(String(Date().timeIntervalSince1970.rounded(.down)).dropLast(2))
+        
+        rv.scheme = FinnHubFetcher.Components.scheme
+        rv.host = FinnHubFetcher.Components.host
+        rv.path = FinnHubFetcher.Components.rootPath + "/stock/candle"
+        rv.queryItems = [
+            URLQueryItem(name: "symbol", value: symbol),
+            URLQueryItem(name: "from", value: from),
+            URLQueryItem(name: "to", value: to),
+            URLQueryItem(name: "resolution", value: "D"),
             URLQueryItem(name: "token", value: FinnHubFetcher.Components.auth)
         ]
         return rv

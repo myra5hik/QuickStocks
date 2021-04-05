@@ -26,8 +26,14 @@ struct StockDetailsView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 VStack {
-                    Text(viewModel.stock.symbol).h2()
-                    Text(viewModel.stock.name).withAppFont(size: 12)
+                    Text(viewModel.stock.symbol)
+                        .h2()
+                        .lineLimit(1)
+                        .frame(width: 250, height: nil, alignment: .center)
+                    Text(viewModel.stock.name)
+                        .withAppFont(size: 12)
+                        .lineLimit(1)
+                        .frame(width: 250, height: nil, alignment: .center)
                 }
             }
         }

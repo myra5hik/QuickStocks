@@ -16,6 +16,15 @@ struct FavButtonView: View {
     }
     
     var body: some View {
+        starShape
+            .onTapGesture {
+                viewModel.container.appState.toggleFav(symbol: viewModel.associatedStock)
+            }
+    }
+}
+
+private extension FavButtonView {
+    var starShape: some View {
         guard let isFav = viewModel.isFav else { return AnyView(EmptyView()) }
         
         switch viewModel.style {
@@ -24,18 +33,12 @@ struct FavButtonView: View {
                 Image(systemName: "star.fill")
                     .font(Font.system(size: 16, weight: .black, design: .default))
                     .foregroundColor(isFav ? Color("Fav Yellow") : Color(.gray))
-                    .onTapGesture {
-                        viewModel.container.appState.toggleFav(symbol: viewModel.associatedStock)
-                    }
             )
         case .stroked:
             return AnyView(
                 Image(systemName: isFav ? "star.fill" : "star")
                     .font(Font.system(size: 16, weight: .bold, design: .default))
                     .foregroundColor(isFav ? Color("Fav Yellow") : Color("Pale Black"))
-                    .onTapGesture {
-                        viewModel.container.appState.toggleFav(symbol: viewModel.associatedStock)
-                    }
             )
         }
     }

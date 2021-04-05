@@ -10,6 +10,7 @@ import Combine
 
 protocol ThrottledURLSessionProtocol {
     func dataTaskPublisher(for request: URLRequest) -> AnyPublisher<URLSession.DataTaskPublisher.Output, URLError>
+    func dataTaskPublisher(for url: URL) -> AnyPublisher<URLSession.DataTaskPublisher.Output, URLError>
 }
 
 ///

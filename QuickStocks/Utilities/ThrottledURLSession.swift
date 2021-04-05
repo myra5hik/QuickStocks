@@ -14,7 +14,7 @@ protocol ThrottledURLSessionProtocol {
 }
 
 ///
-/// Provides acces to a URLSession, which makes requests no more often than the specified amount of times per second.
+/// Provides access to a URLSession, which makes requests no more often than the specified amount of times per second.
 ///
 class ThrottledURLSession {
     private let session: URLSession
@@ -27,7 +27,7 @@ class ThrottledURLSession {
     init(config: URLSessionConfiguration = configureDefaultSession(), maxPerSecond: Double) {
         self.session = URLSession(configuration: config)
         self.interval = 1 / maxPerSecond
-        self.nextSeat = Date() + interval
+        self.nextSeat = Date()
     }
 }
 
@@ -63,7 +63,7 @@ private extension ThrottledURLSession {
         let now = Date()
         if now >= nextSeat { nextSeat = now }
         let requestDelay = nextSeat.timeIntervalSince(now)
-        self.nextSeat = self.nextSeat.addingTimeInterval(self.interval)
+        nextSeat = nextSeat.addingTimeInterval(interval)
         return requestDelay
     }
     

@@ -15,10 +15,10 @@ protocol IexCloudProtocol {
 }
 
 class IexCloudFetcher {
-    private let session: URLSession
+    private let session: ThrottledURLSession
     
-    init(session: URLSession = URLSession(configuration: configureSession())) {
-        self.session = session
+    init() {
+        self.session = ThrottledURLSession(maxPerSecond: 100)
     }
 }
 
@@ -53,7 +53,7 @@ extension IexCloudFetcher: IexCloudProtocol {
     func fetchImage(_ symbol: Symbol) -> AnyPublisher<UIImage, FetcherError> {
         return fetchLogoUrl(for: symbol)
             .flatMap { url in
-                self.session.dataTaskPublisher(for: url)
+                self.session.dataTaskPublisher(for: URLRequest(url: url))
                     .mapError { FetcherError.networking(description: $0.localizedDescription) }
             }
             .mapError { (_) -> FetcherError in
@@ -95,20 +95,6 @@ extension IexCloudFetcher {
             }
             .mapError{ _ in FetcherError.parsing }
             .eraseToAnyPublisher()
-    }
-}
-
-// MARK: - Config
-
-private extension IexCloudFetcher {
-    static func configureSession() -> URLSessionConfiguration {
-        let config = URLSessionConfiguration.default
-        config.waitsForConnectivity = true
-        config.httpMaximumConnectionsPerHost = 2
-        config.httpShouldUsePipelining = true
-        config.timeoutIntervalForRequest = 30
-        config.timeoutIntervalForResource = 10
-        return config
     }
 }
 

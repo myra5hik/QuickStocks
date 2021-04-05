@@ -13,6 +13,7 @@
 		B63EDD922619EAFF005C637B /* UIChartStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EDD912619EAFF005C637B /* UIChartStyling.swift */; };
 		B63EDD952619F778005C637B /* FinnhubCandleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EDD942619F778005C637B /* FinnhubCandleResponse.swift */; };
 		B63EDD982619FF67005C637B /* StockDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EDD972619FF67005C637B /* StockDetailsView.swift */; };
+		B63EDD9B261B1AAE005C637B /* ThrottledURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EDD9A261B1AAE005C637B /* ThrottledURLSession.swift */; };
 		B649E245260F34FA0059AE12 /* Loadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B649E244260F34FA0059AE12 /* Loadable.swift */; };
 		B6A8078F2611D54700C11C12 /* UITextFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A8078E2611D54700C11C12 /* UITextFormatter.swift */; };
 		B6A807922611D71400C11C12 /* LogoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A807912611D71400C11C12 /* LogoImageView.swift */; };
@@ -70,6 +71,7 @@
 		B63EDD912619EAFF005C637B /* UIChartStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChartStyling.swift; sourceTree = "<group>"; };
 		B63EDD942619F778005C637B /* FinnhubCandleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinnhubCandleResponse.swift; sourceTree = "<group>"; };
 		B63EDD972619FF67005C637B /* StockDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailsView.swift; sourceTree = "<group>"; };
+		B63EDD9A261B1AAE005C637B /* ThrottledURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrottledURLSession.swift; sourceTree = "<group>"; };
 		B649E244260F34FA0059AE12 /* Loadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
 		B6A8078E2611D54700C11C12 /* UITextFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFormatter.swift; sourceTree = "<group>"; };
 		B6A807912611D71400C11C12 /* LogoImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoImageView.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				B649E244260F34FA0059AE12 /* Loadable.swift */,
+				B63EDD9A261B1AAE005C637B /* ThrottledURLSession.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 				B6CFF1562605FBC70093BA67 /* StockListView.swift in Sources */,
 				B6CFF1422605186F0093BA67 /* StocksDataService.swift in Sources */,
 				B6CFF13A260516EA0093BA67 /* FinIndex.swift in Sources */,
+				B63EDD9B261B1AAE005C637B /* ThrottledURLSession.swift in Sources */,
 				B6CFF16326068BD70093BA67 /* IexCloudFetcher.swift in Sources */,
 				B6CFF1A3260A46850093BA67 /* SearchView.swift in Sources */,
 				B6CFF14626052EB20093BA67 /* DIContainer.swift in Sources */,

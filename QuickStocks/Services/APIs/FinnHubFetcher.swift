@@ -15,7 +15,11 @@ protocol FinnHubProtocol {
 }
 
 class FinnHubFetcher {
-    private let session = URLSession.shared
+    private let session: ThrottledURLSessionProtocol
+    
+    init() {
+        self.session = ThrottledURLSession(maxPerSecond: 1)
+    }
 }
 
 extension FinnHubFetcher: FinnHubProtocol {

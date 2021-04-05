@@ -126,13 +126,14 @@ private extension StockListRowView {
     var starButton: some View {
         if case let .loaded(stock) = viewModel.stock {
             return AnyView(
-                Image(systemName: "star.fill")
-                    .font(Font.system(size: 16, weight: .black, design: .default))
-                    .offset(x: 0.0, y: -1.0)
-                    .foregroundColor(viewModel.isFav ? Color("Fav Yellow") : Color(.gray))
-                    .onTapGesture {
-                        viewModel.container.appState.toggleFav(symbol: stock.symbol)
-                    }
+                FavButtonView(
+                    viewModel: .init(
+                        container: viewModel.container,
+                        stockSymbol: stock.symbol,
+                        style: .filled
+                    )
+                )
+                .offset(x: 0.0, y: -1.0)
             )
         }
         return AnyView(Text(""))
@@ -172,7 +173,6 @@ private extension StockListRowView {
 extension StockListRowView {
     class ViewModel: ObservableObject, Identifiable {
         @Published private(set) var stock: Loadable<Stock, FetcherError>
-        @Published private(set) var isFav: Bool
         @Published var isOdd: Bool
         var logoImageViewModel: LogoImageView.ViewModel?
         
@@ -191,12 +191,10 @@ extension StockListRowView {
             self.stock = .idle
             self.stockSymbol = stockSymbol
             self.isOdd = isOdd
-            self.isFav = false
             self.logoImageViewModel = nil
             self.errorReporter = reportError
             
             requestData()
-            subscribeToFavs()
         }
     }
 }
@@ -218,17 +216,6 @@ private extension StockListRowView.ViewModel {
             }, receiveValue: { [weak self] (value) in
                 self?.stock = .loaded(value)
             })
-            .store(in: &bag)
-    }
-    
-    func subscribeToFavs() -> Void {
-        container.appState.$favourites
-            .subscribe(on: DispatchQueue.global())
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] (set) in
-                guard let symbol = self?.stockSymbol else { return }
-                self?.isFav = set.contains(symbol)
-            }
             .store(in: &bag)
     }
 }

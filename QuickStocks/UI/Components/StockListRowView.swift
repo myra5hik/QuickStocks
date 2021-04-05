@@ -20,11 +20,10 @@ struct StockListRowView: View {
         case .loaded(let stock):
             NavigationLink(
                 destination: StockDetailsView(
-                    viewModel: .init(
-                        container: viewModel.container, stock: stock
-                    )
+                    viewModel: .init(container: viewModel.container, stock: stock)
                 ),
-                label: { fullRowRender })
+                label: { fullRowRender }
+            )
         default:
             fullRowRender
         }
@@ -136,7 +135,7 @@ private extension StockListRowView {
                 .offset(x: 0.0, y: -1.0)
             )
         }
-        return AnyView(Text(""))
+        return AnyView(EmptyView())
     }
     
     var retryButton: some View {
@@ -181,7 +180,7 @@ extension StockListRowView {
         
         let container: DIContainer
         private let errorReporter: Optional<(FetcherError) -> ()>
-        private var bag = Set<AnyCancellable>()
+        private var disposables = Set<AnyCancellable>()
         
         init(
             container: DIContainer, stockSymbol: Symbol, isOdd: Bool,
@@ -216,7 +215,7 @@ private extension StockListRowView.ViewModel {
             }, receiveValue: { [weak self] (value) in
                 self?.stock = .loaded(value)
             })
-            .store(in: &bag)
+            .store(in: &disposables)
     }
 }
 

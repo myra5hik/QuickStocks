@@ -16,15 +16,13 @@ struct StockDetailsView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .center, spacing: 0) {
-                priceGroup
-                chart
-                details
-                Spacer(minLength: 0)
-            }
+        VStack(alignment: .center, spacing: 0) {
+            priceGroup
+            chart
+            details
+            Spacer(minLength: 0)
         }
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 VStack {
@@ -47,6 +45,7 @@ private extension StockDetailsView {
             )
             .indicatingDynamics(rate: viewModel.stock.changePercent)
         }
+        .padding(.top, 32)
     }
     
     var chart: some View {
@@ -57,8 +56,8 @@ private extension StockDetailsView {
         )
         .padding([.horizontal, .bottom], 16)
         .frame(
-            minWidth: 0, idealWidth: 0, maxWidth: .infinity,
-            minHeight: 150, idealHeight: 300, maxHeight: .infinity,
+            minWidth: 100, idealWidth: 300, maxWidth: .infinity,
+            minHeight: 100, idealHeight: 300, maxHeight: 300,
             alignment: .center
         )
     }

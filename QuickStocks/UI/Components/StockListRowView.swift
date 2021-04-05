@@ -10,6 +10,7 @@ import Combine
 
 struct StockListRowView: View {
     @ObservedObject private var viewModel: ViewModel
+    @State private var navigationActive = false
     
     init(model: ViewModel) {
         self.viewModel = model
@@ -22,8 +23,11 @@ struct StockListRowView: View {
                 destination: StockDetailsView(
                     viewModel: .init(container: viewModel.container, stock: stock)
                 ),
+                isActive: $navigationActive,
                 label: { fullRowRender }
             )
+            .onAppear{ navigationActive = false }
+            .onTapGesture { navigationActive = true }
         default:
             fullRowRender
         }
@@ -124,15 +128,16 @@ private extension StockListRowView {
     
     var starButton: some View {
         if case let .loaded(stock) = viewModel.stock {
-            return AnyView(
-                FavButtonView(
-                    viewModel: .init(
-                        container: viewModel.container,
-                        stockSymbol: stock.symbol,
-                        style: .filled
-                    )
+            if viewModel.favButtonViewModel == nil {
+                viewModel.favButtonViewModel = .init(
+                    container: viewModel.container,
+                    stockSymbol: stock.symbol,
+                    style: .filled
                 )
-                .offset(x: 0.0, y: -1.0)
+            }
+            return AnyView(
+                FavButtonView(viewModel: viewModel.favButtonViewModel!)
+                    .offset(x: 0.0, y: -1.0)
             )
         }
         return AnyView(EmptyView())
@@ -174,6 +179,7 @@ extension StockListRowView {
         @Published private(set) var stock: Loadable<Stock, FetcherError>
         @Published var isOdd: Bool
         var logoImageViewModel: LogoImageView.ViewModel?
+        var favButtonViewModel: FavButtonView.ViewModel?
         
         let stockSymbol: Symbol
         var id: Symbol { stockSymbol }

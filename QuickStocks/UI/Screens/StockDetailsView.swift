@@ -36,6 +36,11 @@ struct StockDetailsView: View {
                         .frame(width: 250, height: nil, alignment: .center)
                 }
             }
+            
+            ToolbarItem(placement: .primaryAction) {
+                FavButtonView(viewModel: viewModel.starViewModel)
+                    .scaleEffect(x: 1.1, y: 1.1, anchor: .center)
+            }
         }
     }
 }
@@ -104,11 +109,17 @@ extension StockDetailsView {
     class ViewModel: ObservableObject {
         @Published private(set) var stock: Stock
         
+        let starViewModel: FavButtonView.ViewModel
         let container: DIContainer
         
         init(container: DIContainer, stock: Stock) {
             self.container = container
             self.stock = stock
+            self.starViewModel = .init(
+                container: container,
+                stockSymbol: stock.symbol,
+                style: .stroked
+            )
         }
     }
 }

@@ -105,7 +105,7 @@ private extension IexCloudFetcher {
         static let scheme = "https"
         static let host = "cloud.iexapis.com"
         static let rootPath = "/v1"
-        static let auth = "pk_83e37c70d33641e49bde944279f6b920"
+        static let auth = <#Your token#>
     }
     
     //

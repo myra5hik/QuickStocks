@@ -90,7 +90,7 @@ private extension FinnHubFetcher {
         static let scheme = "https"
         static let host = "finnhub.io"
         static let rootPath = "/api/v1"
-        static let auth = "c1b5bvv48v6rcdq9u6g0"
+        static let auth = <#Your token#>
     }
     
     //
